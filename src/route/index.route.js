@@ -2,7 +2,10 @@ import express from 'express';
 import csurf from 'csurf';
 import * as indexController from '../controller/index.controller.js';
 import * as authController from '../controller/auth/member/member.auth.js';
-import { requireLogin, requireUsername } from '../middleware/user.middleware.js';
+import {
+	requireLogin,
+	requireUsername,
+} from '../middleware/user.middleware.js';
 var router = express.Router();
 var csrfProtection = csurf({ cookie: true });
 router.get('/', indexController.getIndex);
@@ -16,5 +19,11 @@ router.post('/bill', requireUsername, indexController.submitBill);
 router.post('/contact', requireLogin, indexController.sendMessage);
 router.get('/logout', requireLogin, authController.logout);
 router.get('/member/:username', requireLogin, indexController.getMember);
-router.post('/member/:username', requireLogin, requireUsername, indexController.updateMember, authController.logout);
+router.post(
+	'/member/:username',
+	requireLogin,
+	requireUsername,
+	indexController.updateMember,
+	authController.logout
+);
 export default router;

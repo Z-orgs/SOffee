@@ -11,8 +11,8 @@ connectDB();
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use((req, res) => {
-    res.render('./other/404');
+	res.render('./other/404');
 });
 app.listen(PORT, () => {
-    console.log(`PORT: ${PORT}`);
+	console.log(`PORT: ${PORT}`);
 });
