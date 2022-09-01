@@ -10,7 +10,20 @@
 <body>
     {{#if username}}
     <h1>Hi, {{username}}</h1>
-    <a href="/member/{{username}}">Member</a>
+    <a href="/member/{{username}}">Member</a><br>
+    {{!-- <div class="search">
+        <input type="text" name="search"><br>
+        <button onclick="search();">Search</button>
+    </div> --}}
+    <div class="sort">
+        <label for="">sort by price</label>
+        <select name="sort">
+            <option value="0" selected>Nothing</option>
+            <option value="1">ascending</option>
+            <option value="-1">descending</option>
+        </select>
+        <button onclick="sort();">sort</button>
+    </div>
     <a href="/cart">Cart</a>
     <a href="/bill">Bill</a>
     <a href="/logout">Logout</a><br>

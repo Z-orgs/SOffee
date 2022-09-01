@@ -2,7 +2,7 @@ import * as SOCoffee from '../config/DB/database.model.js';
 import { formatDate } from '../function/function.js';
 function getIndex(req, res) {
     try {
-        SOCoffee.Product.find({})
+        SOCoffee.Product.find({}).sort({ price: req.body.sort ? req.body.sort : 0 })
             .then(async product => {
                 res.locals.username = req.signedCookies.username;
                 res.render('./user/index', {
