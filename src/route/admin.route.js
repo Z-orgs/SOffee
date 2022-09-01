@@ -1,0 +1,11 @@
+import express from 'express';
+import * as adminController from '../controller/admin.controller.js';
+import * as authController from '../controller/auth/admin/admin.auth.js';
+import { requireLogin } from '../middleware/admin.middleware.js';
+var router = express.Router();
+router.get('/', adminController.getIndex);
+router.get('/console', requireLogin, adminController.getConsole);
+router.post('/console', requireLogin, authController.signup);
+router.post('/', authController.login);
+router.get('/logout', authController.logout);
+export default router;

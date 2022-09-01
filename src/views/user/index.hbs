@@ -1,0 +1,61 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+</head>
+
+<body>
+    {{#if username}}
+    <h1>Hi, {{username}}</h1>
+    <a href="/member/{{username}}">Member</a>
+    <a href="/cart">Cart</a>
+    <a href="/bill">Bill</a>
+    <a href="/logout">Logout</a><br>
+    <form action="/contact" method="post">
+        <h2>contact</h2>
+        <label for="">email</label><br>
+        <input type="email" name="email" id=""><br>
+        <label for="">Subject</label><br>
+        <input type="text" name="subject"><br>
+        <label for="">message</label><br>
+        <input type="text" name="message" id=""><br>
+        <button type="submit">Send</button>
+    </form>
+    {{product}}
+    <div class="product">
+        <input type="number" id="quantity-630e5f399e771c6d480f4f8f">
+        <button onclick="addToCart('630e5f399e771c6d480f4f8f');">+</button>
+    </div>
+    {{else}}
+    <h2>login</h2>
+    <form action="/" method="post">
+        <input type="text" name="typeOfForm" value="login" hidden>
+        <label for="">usernames</label><br>
+        <input type="text" name="username"><br>
+        <label for="">password</label><br>
+        <input type="text" name="password">
+        <input type="submit" value="Login">
+    </form>
+    <h2>signup</h2>
+    <form action="/" method="post">
+        <input type="text" name="typeOfForm" value="signup" hidden>
+        <label for="">username</label><br>
+        <input type="text" name="username"><br>
+        <label for="">password</label><br>
+        <input type="text" name="password"><br>
+        <label for="">Confirm password</label><br>
+        <input type="text" name="rePassword">
+        <input type="submit" value="Signup">
+    </form>
+    <button onclick="guest();">Continue without login.</button>
+    {{/if}}
+    <br>
+    {{msg}}
+
+</body>
+<script src="/js/function.js"></script>
+
+</html>

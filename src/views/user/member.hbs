@@ -1,0 +1,11 @@
+<form method="post" action="/member/{{member.username}}">
+    <label for="">Name</label><br>
+    <input type="text" value="{{member.name}}" name="name"><br>
+    <label for="">DOB</label><br>
+    <input type="date" value="{{member.dob}}" name="dob"><br>
+    <label for="">address</label><br>
+    <input type="text" value="{{member.address}}" name="address"><br>
+    <label for="">tel</label><br>
+    <input type="text" value="{{member.tel}}" name="tel"><br>
+    <input type="submit" value="Update">
+</form>

@@ -1,0 +1,26 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    {{#each cart}}
+    <div class="product">
+        <input type="checkbox" name="isCheck"><br>
+        {{this.product.name}}
+        <br>
+        {{this.product.price}}
+        <br>
+        <input type="text" value="{{this.productId}}" hidden>
+        <input type="number" value="{{this.quantity}}">
+    </div>
+    {{/each}}
+    <button onclick="submitBill();">pay</button>
+</body>
+<script src="js/function.js"></script>
+
+</html>
