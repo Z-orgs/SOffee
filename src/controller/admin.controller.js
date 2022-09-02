@@ -4,11 +4,11 @@ function getIndex(req, res) {
 }
 async function getConsole(req, res) {
 	try {
-		var members = await SOCoffee.Member.find({});
-		var products = await SOCoffee.Product.find({});
-		var guests = await SOCoffee.Guest.find({});
-		var bills = await SOCoffee.Bill.find({});
-		var admins = await SOCoffee.Admin.find({});
+		const members = await SOCoffee.Member.find({});
+		const products = await SOCoffee.Product.find({});
+		const guests = await SOCoffee.Guest.find({});
+		const bills = await SOCoffee.Bill.find({});
+		const admins = await SOCoffee.Admin.find({});
 		res.render('./admin/console', {
 			members: members,
 			products: products,
@@ -20,15 +20,5 @@ async function getConsole(req, res) {
 		console.log(error);
 		res.render('./other/bug');
 	}
-}
-function updateMember() {
-	// name: String,
-	// dob: Date,
-	// Address: String,
-	// username: String,
-	// password: String,
-	// star: Number
-	var name = req.body.name;
-	var dob = req.body.date;
 }
 export { getIndex, getConsole };
