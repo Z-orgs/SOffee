@@ -1,6 +1,6 @@
 import * as SOCoffee from '../config/DB/database.model.js';
 async function requireLogin(req, res, next) {
-	var [member, guest] = await Promise.all([
+	const [member, guest] = await Promise.all([
 		SOCoffee.Member.find({ username: req.signedCookies.username }),
 		SOCoffee.Guest.find({ username: req.signedCookies.username }),
 	]);

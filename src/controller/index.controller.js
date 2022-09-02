@@ -1,9 +1,12 @@
 import * as SOCoffee from '../config/DB/database.model.js';
 import { formatDate } from '../function/function.js';
+import imgur from 'imgur';
+import appRoot from 'app-root-path';
+import fs from 'fs';
 function getIndex(req, res) {
 	try {
 		SOCoffee.Product.find({})
-			.sort({ price: req.body.sort ? req.body.sort : 0 })
+			.sort({ price: req.query.sort ? req.query.sort : 1 })
 			.then(async (product) => {
 				res.locals.username = req.signedCookies.username;
 				res.render('./user/index', {
@@ -21,10 +24,10 @@ function getIndex(req, res) {
 }
 async function getMember(req, res) {
 	try {
-		var result = await SOCoffee.Member.findOne({
+		const result = await SOCoffee.Member.findOne({
 			username: req.params.username,
 		});
-		var member = { ...result._doc };
+		const member = { ...result._doc };
 		member.dob = formatDate(result.dob);
 		res.render('./user/member', {
 			member: member,
@@ -36,7 +39,15 @@ async function getMember(req, res) {
 }
 async function updateMember(req, res) {
 	try {
-		var { name, dob, address, tel } = req.body;
+		let uploadResult;
+		if (req.files) {
+			const avatarFile = req.files.avatarFile;
+			const uploadPath = appRoot + '/src/public/files/' + avatarFile.name;
+			await avatarFile.mv(uploadPath);
+			uploadResult = await imgur.uploadFile(uploadPath);
+			fs.unlinkSync(uploadPath);
+		}
+		const { name, dob, address, tel } = req.body;
 		await SOCoffee.Member.findOneAndUpdate(
 			{
 				username: req.params.username,
@@ -44,11 +55,12 @@ async function updateMember(req, res) {
 			{
 				$set: {
 					name: name,
-					dob: new Date(dob),
+					avatar: uploadResult ? uploadResult.link : '',
+					dob: dob ? new Date(dob) : Date.now(),
 					address: address,
 					tel: tel,
 				},
-			}
+			},
 		);
 	} catch (error) {
 		console.log(error);
@@ -58,22 +70,24 @@ async function updateMember(req, res) {
 }
 async function getCart(req, res) {
 	try {
-		var [member, guest] = await Promise.all([
+		const [member, guest] = await Promise.all([
 			SOCoffee.Member.findOne({ username: req.signedCookies.username }),
 			SOCoffee.Guest.findOne({ username: req.signedCookies.username }),
 		]);
-		var cart = member ? [...member.cart] : [...guest.cart];
+		let cart = member ? [...member.cart] : [...guest.cart];
 		cart = await Promise.all(
 			cart.map(async (item) => {
 				try {
-					var data = await SOCoffee.Product.findById(item.productId);
+					const data = await SOCoffee.Product.findById(
+						item.productId,
+					);
 					item.product = { ...data._doc };
 				} catch (err) {
 					console.log(err);
 				} finally {
 					return item;
 				}
-			})
+			}),
 		);
 		res.render('./user/cart', {
 			cart: cart,
@@ -89,7 +103,9 @@ function addToCart(req, res) {
 		SOCoffee.Product.findById(req.body.productId)
 			.then((data) => {
 				if (data.quantity < req.body.quantity) {
-					return res.status('400').json({ status: 400 });
+					return res
+						.status('400')
+						.json({ status: 400, msg: 'failed' });
 				} else {
 					SOCoffee.Member.updateOne(
 						{ username: req.signedCookies.username },
@@ -100,15 +116,19 @@ function addToCart(req, res) {
 									quantity: req.body.quantity,
 								},
 							],
-						}
+						},
 					)
 						.then((data) => {
 							if (data.modifiedCount == 1) {
-								return res.status('200').json({ status: 200 });
+								return res
+									.status('200')
+									.json({ status: 200, msg: 'successful ' });
 							}
 						})
 						.catch((err) => {
-							return res.status('400').json({ status: 400 });
+							return res
+								.status('400')
+								.json({ status: 400, msg: 'failed' });
 						});
 					SOCoffee.Guest.updateOne(
 						{ username: req.signedCookies.username },
@@ -119,41 +139,45 @@ function addToCart(req, res) {
 									quantity: req.body.quantity,
 								},
 							],
-						}
+						},
 					)
 						.then((data) => {
 							if (data.modifiedCount == 1) {
-								return res.status('200').json({ status: 200 });
+								return res
+									.status('200')
+									.json({ status: 200, msg: 'successful ' });
 							}
 						})
 						.catch((err) => {
-							return res.status('400').json({ status: 400 });
+							return res
+								.status('400')
+								.json({ status: 400, msg: 'failed' });
 						});
 				}
 			})
 			.catch((err) => {
 				console.log(err);
-				return res.status('400').json({ status: 400 });
+				return res.status('400').json({ status: 400, msg: 'failed' });
 			});
 	} catch (err) {
 		console.log(err);
-		return res.status('500').json({ status: 500 });
+		return res.status('500').json({ status: 500, msg: 'failed' });
 	}
 }
 async function submitCart(req, res) {
-	var totalMoney = 0;
-	for (var product of req.body.submitProduct) {
-		var money = await SOCoffee.Product.findById(product.productId);
-		money = { ...money._doc };
-		product.product = money;
-		money = money.price * product.quantity;
-		totalMoney += money;
+	let totalMoney = 0;
+	for (const product of req.body.submitProduct) {
+		let result = await SOCoffee.Product.findById(product.productId);
+		result = { ...result._doc };
+		product.product = result;
+		result = result.price * product.quantity;
+		totalMoney += result;
 	}
-	var [member, guest] = await Promise.all([
+	const [member, guest] = await Promise.all([
 		SOCoffee.Member.findOne({ username: req.signedCookies.username }),
 		SOCoffee.Guest.findOne({ username: req.signedCookies.username }),
 	]);
-	var customer = member ? { ...member._doc } : { ...guest._doc };
+	const customer = member ? { ...member._doc } : { ...guest._doc };
 	SOCoffee.Bill.create({
 		date: Date.now(),
 		totalMoney: totalMoney,
@@ -170,7 +194,7 @@ async function submitCart(req, res) {
 function getBill(req, res) {
 	SOCoffee.Bill.find({ username: req.signedCookies.username }).then(
 		(data) => {
-			var result = [...data];
+			let result = [...data];
 			result = result[result.length - 1];
 			result.customer.password = '';
 			if (result.isSend == true) {
@@ -181,7 +205,7 @@ function getBill(req, res) {
 					csrfToken: req.csrfToken(),
 				});
 			}
-		}
+		},
 	);
 }
 function submitBill(req, res) {
@@ -193,7 +217,7 @@ function submitBill(req, res) {
 				address: req.body.address,
 				tel: req.body.tel,
 			},
-		}
+		},
 	)
 		.then(async (data) => {
 			await SOCoffee.Member.updateOne(
@@ -202,7 +226,7 @@ function submitBill(req, res) {
 					$set: {
 						cart: [],
 					},
-				}
+				},
 			);
 			await SOCoffee.Guest.updateOne(
 				{ username: req.signedCookies.username },
@@ -210,7 +234,7 @@ function submitBill(req, res) {
 					$set: {
 						cart: [],
 					},
-				}
+				},
 			);
 			res.redirect('/bill');
 		})
@@ -220,7 +244,7 @@ function submitBill(req, res) {
 		});
 }
 async function getUserBill(req, res) {
-	var bills = await SOCoffee.Bill.find({
+	const bills = await SOCoffee.Bill.find({
 		customer: {
 			username: req.signedCookies.username,
 		},
@@ -228,12 +252,11 @@ async function getUserBill(req, res) {
 	});
 	if (bills.length == 0) {
 		res.redirect('/');
-	} else
-		[
-			res.render('./user/bills', {
-				bills: bills,
-			}),
-		];
+	} else {
+		res.render('./user/bills', {
+			bills: bills,
+		});
+	}
 }
 function sendMessage(req, res) {
 	SOCoffee.Message.create({

@@ -18,12 +18,13 @@ router.get('/bill', requireLogin, indexController.getUserBill);
 router.post('/bill', requireUsername, indexController.submitBill);
 router.post('/contact', requireLogin, indexController.sendMessage);
 router.get('/logout', requireLogin, authController.logout);
+router.post('/changePassword', requireLogin, authController.changePassword);
 router.get('/member/:username', requireLogin, indexController.getMember);
 router.post(
 	'/member/:username',
 	requireLogin,
 	requireUsername,
 	indexController.updateMember,
-	authController.logout
+	authController.logout,
 );
 export default router;

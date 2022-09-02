@@ -3,11 +3,11 @@ import md5 from 'md5';
 import shortid from 'shortid';
 const mls = 18000000;
 function auth(req, res) {
-	var typeOfForm = req.body.typeOfForm;
+	const typeOfForm = req.body.typeOfForm;
 	if (typeOfForm === 'login') {
 		((req, res) => {
-			var username = req.body.username;
-			var password = md5(req.body.password);
+			const username = req.body.username;
+			const password = md5(req.body.password);
 			SOCoffee.Member.find({ username: username })
 				.then((data) => {
 					if (data.length) {
@@ -37,9 +37,9 @@ function auth(req, res) {
 		})(req, res);
 	} else if (typeOfForm === 'signup') {
 		((req, res) => {
-			var username = req.body.username;
-			var password = md5(req.body.password);
-			var rePassword = md5(req.body.rePassword);
+			const username = req.body.username;
+			const password = md5(req.body.password);
+			const rePassword = md5(req.body.rePassword);
 			if (password !== rePassword) {
 				return res.render('./user/index', {
 					msg: 'New passwords are not the same.',
@@ -68,7 +68,7 @@ function auth(req, res) {
 		})(req, res);
 	} else if (typeOfForm === 'guest') {
 		(async (req, res) => {
-			var tempUsername = shortid.generate();
+			let tempUsername = shortid.generate();
 			while (
 				(await SOCoffee.Member.find({ username: tempUsername })
 					.length) == 0
@@ -103,4 +103,38 @@ function logout(req, res) {
 		res.redirect('/');
 	}
 }
-export { auth, logout };
+async function changePassword(req, res) {
+	const oldPw = md5(req.body.oldPw);
+	const newPw = md5(req.body.newPw);
+	const rePw = md5(req.body.rePw);
+	try {
+		const member = await SOCoffee.Member.findOne({
+			username: req.signedCookies.username,
+		});
+		if (oldPw !== member.password) {
+			res.status(400).json({ status: 400, msg: 'Wrong password' });
+		} else if (newPw !== rePw) {
+			res.status(401).json({
+				status: 401,
+				msg: 'Passwords are not the same.',
+			});
+		} else {
+			SOCoffee.Member.updateOne(
+				{
+					username: req.signedCookies.username,
+					password: oldPw,
+				},
+				{
+					$set: {
+						password: newPw,
+					},
+				},
+			);
+			res.status(200).json({ status: 200, msg: 'OK' });
+		}
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ status: 500, msg: 'failed' });
+	}
+}
+export { auth, logout, changePassword };

@@ -8,10 +8,11 @@ const product = new Schema(
 		category: String,
 		quantity: Number,
 		sold: Number,
+		date: Date,
 	},
 	{
 		collection: 'Product',
-	}
+	},
 );
 const member = new Schema(
 	{
@@ -19,6 +20,7 @@ const member = new Schema(
 		image: String,
 		dob: Date,
 		address: String,
+		avatar: String,
 		username: {
 			type: String,
 			unique: true,
@@ -30,7 +32,7 @@ const member = new Schema(
 	},
 	{
 		collection: 'Member',
-	}
+	},
 );
 const guest = new Schema(
 	{
@@ -42,7 +44,7 @@ const guest = new Schema(
 	},
 	{
 		collection: 'Guest',
-	}
+	},
 );
 const bill = new Schema(
 	{
@@ -77,7 +79,7 @@ const bill = new Schema(
 	},
 	{
 		collection: 'Bill',
-	}
+	},
 );
 const admin = new Schema(
 	{
@@ -89,7 +91,7 @@ const admin = new Schema(
 	},
 	{
 		collection: 'Admin',
-	}
+	},
 );
 const message = new Schema(
 	{
@@ -100,7 +102,7 @@ const message = new Schema(
 	},
 	{
 		collection: 'Message',
-	}
+	},
 );
 const Member = mongoose.model('Member', member);
 const Product = mongoose.model('Product', product);

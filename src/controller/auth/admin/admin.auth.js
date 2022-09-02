@@ -3,8 +3,8 @@ import md5 from 'md5';
 const mls = 18000000;
 
 function login(req, res) {
-	var username = req.body.username;
-	var password = md5(req.body.password);
+	const username = req.body.username;
+	const password = md5(req.body.password);
 	SOCoffee.Admin.findOne({ username: username })
 		.then((data) => {
 			if (data) {
@@ -32,9 +32,9 @@ function login(req, res) {
 }
 
 function signup(req, res) {
-	var username = req.body.username;
-	var password = md5(req.body.password);
-	var rePassword = md5(req.body.rePassword);
+	const username = req.body.username;
+	const password = md5(req.body.password);
+	const rePassword = md5(req.body.rePassword);
 	if (password !== rePassword) {
 		res.locals.msg = 'New passwords are not the same.';
 		return res.render('./admin/console');
