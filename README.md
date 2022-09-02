@@ -9,4 +9,4 @@
 -   ExpressJS
 -   HBS
 -   MongoDB
--   Imgur API
+-   Imgur API (Unofficial)
