@@ -1,4 +1,4 @@
-import * as SOCoffee from '../../../config/DB/database.model.js';
+import SOCoffee from '../../../SOCoffee/index.js';
 import md5 from 'md5';
 import shortid from 'shortid';
 const mls = 18000000;

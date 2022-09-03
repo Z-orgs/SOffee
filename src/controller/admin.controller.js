@@ -1,4 +1,4 @@
-import * as SOCoffee from '../config/DB/database.model.js';
+import SOCoffee from '../SOCoffee/index.js';
 function getIndex(req, res) {
 	res.render('./admin/index');
 }

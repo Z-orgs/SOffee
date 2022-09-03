@@ -18,9 +18,18 @@
 			<form action='/' method='get'>
 				<div class='sort'>
 					<label for=''>sort by price</label>
-					<select name='sort'>
+					<select name='sortByPrice'>
+						<option value=''>Nothing</option>
 						<option value='1'>ascending</option>
 						<option value='-1'>descending</option>
+					</select>
+				</div>
+				<div class='sort'>
+					<label for=''>sort by date</label>
+					<select name='sortByDate' id=''>
+						<option value=''>Nothing</option>
+						<option value='latest'>latest</option>
+						<option value='oldest'>oldest</option>
 					</select>
 				</div>
 				<button type='submit'>Aspect</button>
