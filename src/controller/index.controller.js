@@ -1,22 +1,31 @@
-import * as SOCoffee from '../config/DB/database.model.js';
+import SOCoffee from '../SOCoffee/index.js';
 import { formatDate } from '../function/function.js';
 import imgur from 'imgur';
 import appRoot from 'app-root-path';
 import fs from 'fs';
-function getIndex(req, res) {
+async function getIndex(req, res) {
 	try {
-		SOCoffee.Product.find({})
-			.sort({ price: req.query.sort ? req.query.sort : 1 })
-			.then(async (product) => {
-				res.locals.username = req.signedCookies.username;
-				res.render('./user/index', {
-					product: product,
-				});
-			})
-			.catch((err) => {
-				console.log(err);
-				res.render('./other/bug');
+		let product;
+		if (req.query.sortByDate && req.query.sortByPrice) {
+			product = await SOCoffee.Product.find({}).sort({
+				date: req.query.sortByDate,
+				price: req.query.sortByPrice,
 			});
+		} else if (req.query.sortByDate && !req.query.sortByPrice) {
+			product = await SOCoffee.Product.find({}).sort({
+				date: req.query.sortByDate,
+			});
+		} else if (!req.query.sortByDate && req.query.sortByPrice) {
+			product = await SOCoffee.Product.find({}).sort({
+				date: req.query.sortByPrice,
+			});
+		} else {
+			product = await SOCoffee.Product.find({});
+		}
+		res.locals.username = req.signedCookies.username;
+		res.render('./user/index', {
+			product: product,
+		});
 	} catch (error) {
 		console.log(error);
 		res.redirect('/');
