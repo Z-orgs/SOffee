@@ -1,5 +1,5 @@
-import SOCoffee from '../SOCoffee/index.js';
-import { formatDate } from '../function/function.js';
+import SOffee from '../../SOffee/index.js';
+import { formatDate } from '../../function/function.js';
 import imgur from 'imgur';
 import appRoot from 'app-root-path';
 import fs from 'fs';
@@ -7,20 +7,20 @@ async function getIndex(req, res) {
 	try {
 		let product;
 		if (req.query.sortByDate && req.query.sortByPrice) {
-			product = await SOCoffee.Product.find({}).sort({
+			product = await SOffee.Product.find({}).sort({
 				date: req.query.sortByDate,
 				price: req.query.sortByPrice,
 			});
 		} else if (req.query.sortByDate && !req.query.sortByPrice) {
-			product = await SOCoffee.Product.find({}).sort({
+			product = await SOffee.Product.find({}).sort({
 				date: req.query.sortByDate,
 			});
 		} else if (!req.query.sortByDate && req.query.sortByPrice) {
-			product = await SOCoffee.Product.find({}).sort({
+			product = await SOffee.Product.find({}).sort({
 				date: req.query.sortByPrice,
 			});
 		} else {
-			product = await SOCoffee.Product.find({});
+			product = await SOffee.Product.find({});
 		}
 		res.locals.username = req.signedCookies.username;
 		res.render('./user/index', {
@@ -33,7 +33,7 @@ async function getIndex(req, res) {
 }
 async function getMember(req, res) {
 	try {
-		const result = await SOCoffee.Member.findOne({
+		const result = await SOffee.Member.findOne({
 			username: req.params.username,
 		});
 		const member = { ...result._doc };
@@ -57,7 +57,7 @@ async function updateMember(req, res) {
 			fs.unlinkSync(uploadPath);
 		}
 		const { name, dob, address, tel } = req.body;
-		await SOCoffee.Member.findOneAndUpdate(
+		await SOffee.Member.findOneAndUpdate(
 			{
 				username: req.params.username,
 			},
@@ -80,16 +80,14 @@ async function updateMember(req, res) {
 async function getCart(req, res) {
 	try {
 		const [member, guest] = await Promise.all([
-			SOCoffee.Member.findOne({ username: req.signedCookies.username }),
-			SOCoffee.Guest.findOne({ username: req.signedCookies.username }),
+			SOffee.Member.findOne({ username: req.signedCookies.username }),
+			SOffee.Guest.findOne({ username: req.signedCookies.username }),
 		]);
 		let cart = member ? [...member.cart] : [...guest.cart];
 		cart = await Promise.all(
 			cart.map(async (item) => {
 				try {
-					const data = await SOCoffee.Product.findById(
-						item.productId,
-					);
+					const data = await SOffee.Product.findById(item.productId);
 					item.product = { ...data._doc };
 				} catch (err) {
 					console.log(err);
@@ -109,14 +107,14 @@ async function getCart(req, res) {
 
 function addToCart(req, res) {
 	try {
-		SOCoffee.Product.findById(req.body.productId)
+		SOffee.Product.findById(req.body.productId)
 			.then((data) => {
 				if (data.quantity < req.body.quantity) {
 					return res
 						.status('400')
 						.json({ status: 400, msg: 'failed' });
 				} else {
-					SOCoffee.Member.updateOne(
+					SOffee.Member.updateOne(
 						{ username: req.signedCookies.username },
 						{
 							cart: [
@@ -139,7 +137,7 @@ function addToCart(req, res) {
 								.status('400')
 								.json({ status: 400, msg: 'failed' });
 						});
-					SOCoffee.Guest.updateOne(
+					SOffee.Guest.updateOne(
 						{ username: req.signedCookies.username },
 						{
 							cart: [
@@ -176,18 +174,18 @@ function addToCart(req, res) {
 async function submitCart(req, res) {
 	let totalMoney = 0;
 	for (const product of req.body.submitProduct) {
-		let result = await SOCoffee.Product.findById(product.productId);
+		let result = await SOffee.Product.findById(product.productId);
 		result = { ...result._doc };
 		product.product = result;
 		result = result.price * product.quantity;
 		totalMoney += result;
 	}
 	const [member, guest] = await Promise.all([
-		SOCoffee.Member.findOne({ username: req.signedCookies.username }),
-		SOCoffee.Guest.findOne({ username: req.signedCookies.username }),
+		SOffee.Member.findOne({ username: req.signedCookies.username }),
+		SOffee.Guest.findOne({ username: req.signedCookies.username }),
 	]);
 	const customer = member ? { ...member._doc } : { ...guest._doc };
-	SOCoffee.Bill.create({
+	SOffee.Bill.create({
 		date: Date.now(),
 		totalMoney: totalMoney,
 		product: req.body.submitProduct,
@@ -201,24 +199,22 @@ async function submitCart(req, res) {
 		});
 }
 function getBill(req, res) {
-	SOCoffee.Bill.find({ username: req.signedCookies.username }).then(
-		(data) => {
-			let result = [...data];
-			result = result[result.length - 1];
-			result.customer.password = '';
-			if (result.isSend == true) {
-				res.redirect('/');
-			} else {
-				res.render('./user/bill', {
-					bill: result,
-					csrfToken: req.csrfToken(),
-				});
-			}
-		},
-	);
+	SOffee.Bill.find({ username: req.signedCookies.username }).then((data) => {
+		let result = [...data];
+		result = result[result.length - 1];
+		result.customer.password = '';
+		if (result.isSend == true) {
+			res.redirect('/');
+		} else {
+			res.render('./user/bill', {
+				bill: result,
+				csrfToken: req.csrfToken(),
+			});
+		}
+	});
 }
 function submitBill(req, res) {
-	SOCoffee.Bill.updateOne(
+	SOffee.Bill.updateOne(
 		{ _id: req.body.billId },
 		{
 			$set: {
@@ -229,7 +225,7 @@ function submitBill(req, res) {
 		},
 	)
 		.then(async (data) => {
-			await SOCoffee.Member.updateOne(
+			await SOffee.Member.updateOne(
 				{ username: req.signedCookies.username },
 				{
 					$set: {
@@ -237,7 +233,7 @@ function submitBill(req, res) {
 					},
 				},
 			);
-			await SOCoffee.Guest.updateOne(
+			await SOffee.Guest.updateOne(
 				{ username: req.signedCookies.username },
 				{
 					$set: {
@@ -253,7 +249,7 @@ function submitBill(req, res) {
 		});
 }
 async function getUserBill(req, res) {
-	const bills = await SOCoffee.Bill.find({
+	const bills = await SOffee.Bill.find({
 		customer: {
 			username: req.signedCookies.username,
 		},
@@ -268,7 +264,7 @@ async function getUserBill(req, res) {
 	}
 }
 function sendMessage(req, res) {
-	SOCoffee.Message.create({
+	SOffee.Message.create({
 		username: req.signedCookies.username,
 		email: req.body.email,
 		subject: req.body.subject,

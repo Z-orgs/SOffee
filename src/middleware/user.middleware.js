@@ -1,8 +1,8 @@
-import SOCoffee from '../SOCoffee/index.js';
+import SOffee from '../SOffee/index.js';
 async function requireLogin(req, res, next) {
 	const [member, guest] = await Promise.all([
-		SOCoffee.Member.find({ username: req.signedCookies.username }),
-		SOCoffee.Guest.find({ username: req.signedCookies.username }),
+		SOffee.Member.find({ username: req.signedCookies.username }),
+		SOffee.Guest.find({ username: req.signedCookies.username }),
 	]);
 	if (member.length == 1 || guest.length == 1) {
 		res.locals.username = req.signedCookies.username;

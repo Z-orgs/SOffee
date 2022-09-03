@@ -1,26 +1,26 @@
 {
-  "name": "SOCoffee",
+  "name": "SOffee",
   "version": "1.0.0",
   "author": {
     "name": "drm ft. Yuno"
   },
-  "main": "./src/index.js",
+  "main": "./src/SOffee.js",
   "scripts": {
-    "dev": "nodemon ./src/index.js",
-    "start": "node ./src/index.js"
+    "dev": "nodemon ./src/SOffee.js",
+    "start": "node ./src/SOffee.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/drmerveem/SOCoffee.git"
+    "url": "https://github.com/SO-devs/SOffee.git"
   },
   "license": "MIT",
   "type": "module",
   "packageManager": "yarn@3.2.2",
   "bugs": {
-    "url": "https://github.com/drmerveem/SOCoffee/issues",
+    "url": "https://github.com/SO-devs/SOffee/issues",
     "email": "nsovipgl@gmail.com"
   },
-  "homepage": "https://github.com/drmerveem/SOCoffee#readme",
+  "homepage": "https://github.com/SO-devs/SOffee#readme",
   "dependencies": {
     "app-root-path": "^3.1.0",
     "cookie-parser": "^1.4.6",

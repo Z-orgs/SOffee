@@ -1,4 +1,5 @@
 function addToCart(_id) {
+	_id = _id.trim();
 	const quantity = document.getElementById(`quantity-${_id}`).value;
 	fetch('/addToCart', {
 		method: 'post',

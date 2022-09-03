@@ -1,11 +1,11 @@
 import express from 'express';
-import SOCoffee from './SOCoffee/index.js';
-import configApp from '../src/config/app.config.js';
-import indexRouter from './route/index.route.js';
+import SOffee from './SOffee/index.js';
+import configApp from './config/app.config.js';
+import indexRouter from './router/index.route.js';
 import connectDB from './config/database.connect.js';
-import adminRouter from './route/admin.route.js';
+import adminRouter from './router/admin.route.js';
 const app = express();
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT;
 configApp(app);
 connectDB();
 app.use('/', indexRouter);

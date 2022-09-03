@@ -1,4 +1,4 @@
-import SOCoffee from '../../../SOCoffee/index.js';
+import SOffee from '../../SOffee/index.js';
 import md5 from 'md5';
 import shortid from 'shortid';
 const mls = 18000000;
@@ -8,7 +8,7 @@ function auth(req, res) {
 		((req, res) => {
 			const username = req.body.username;
 			const password = md5(req.body.password);
-			SOCoffee.Member.find({ username: username })
+			SOffee.Member.find({ username: username })
 				.then((data) => {
 					if (data.length) {
 						if (data[0].password === password) {
@@ -45,10 +45,10 @@ function auth(req, res) {
 					msg: 'New passwords are not the same.',
 				});
 			}
-			SOCoffee.Member.find({ username: username })
+			SOffee.Member.find({ username: username })
 				.then((data) => {
 					if (!data.length) {
-						SOCoffee.Member.create({
+						SOffee.Member.create({
 							username: username,
 							password: password,
 						}).then((log) => {
@@ -70,12 +70,12 @@ function auth(req, res) {
 		(async (req, res) => {
 			let tempUsername = shortid.generate();
 			while (
-				(await SOCoffee.Member.find({ username: tempUsername })
-					.length) == 0
+				(await SOffee.Member.find({ username: tempUsername }).length) ==
+				0
 			) {
 				tempUsername = shortid.generate();
 			}
-			SOCoffee.Guest.create({ username: tempUsername })
+			SOffee.Guest.create({ username: tempUsername })
 				.then((data) => {
 					res.cookie('username', tempUsername, {
 						signed: true,
@@ -108,7 +108,7 @@ async function changePassword(req, res) {
 	const newPw = md5(req.body.newPw);
 	const rePw = md5(req.body.rePw);
 	try {
-		const member = await SOCoffee.Member.findOne({
+		const member = await SOffee.Member.findOne({
 			username: req.signedCookies.username,
 		});
 		if (oldPw !== member.password) {
@@ -119,7 +119,7 @@ async function changePassword(req, res) {
 				msg: 'Passwords are not the same.',
 			});
 		} else {
-			SOCoffee.Member.updateOne(
+			SOffee.Member.updateOne(
 				{
 					username: req.signedCookies.username,
 					password: oldPw,

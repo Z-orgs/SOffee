@@ -1,6 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
+import 'dotenv/config';
 function configApp(app) {
 	app.use(fileUpload());
 	app.use(express.static('./src/public'));

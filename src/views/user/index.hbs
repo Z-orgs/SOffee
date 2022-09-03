@@ -47,13 +47,13 @@
 				<input type='text' name='message' id='' /><br />
 				<button type='submit'>Send</button>
 			</form>
-			{{product}}
-			<div class='product'>
-				<input type='number' id='quantity-630e5f399e771c6d480f4f8f' />
-				<button
-					onclick="addToCart('630e5f399e771c6d480f4f8f');"
-				>+</button>
-			</div>
+			{{#each product}}
+				{{this}}
+				<div class='product'>
+					<input type='number' id='quantity-{{this._id}}' />
+					<button onclick='addToCart('{{this._id}}');'>+</button>
+				</div>
+			{{/each}}
 			<div class='changePassword'>
 				<h2>change password</h2>
 				<label for=''>old password</label><br />

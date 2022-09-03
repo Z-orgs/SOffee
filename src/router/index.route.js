@@ -1,7 +1,7 @@
 import express from 'express';
 import csurf from 'csurf';
-import * as indexController from '../controller/index.controller.js';
-import * as authController from '../controller/auth/member/member.auth.js';
+import * as indexController from '../controller/user/user.controller.js';
+import * as authController from '../controller/user/user.auth.js';
 import {
 	requireLogin,
 	requireUsername,

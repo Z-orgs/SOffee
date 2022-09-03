@@ -1,11 +1,11 @@
-import SOCoffee from '../../../SOCoffee/index.js';
+import SOffee from '../../SOffee/index.js';
 import md5 from 'md5';
 const mls = 18000000;
 
 function login(req, res) {
 	const username = req.body.username;
 	const password = md5(req.body.password);
-	SOCoffee.Admin.findOne({ username: username })
+	SOffee.Admin.findOne({ username: username })
 		.then((data) => {
 			if (data) {
 				if (data.password === password) {
@@ -39,10 +39,10 @@ function signup(req, res) {
 		res.locals.msg = 'New passwords are not the same.';
 		return res.render('./admin/console');
 	}
-	SOCoffee.Admin.findOne({ username: username })
+	SOffee.Admin.findOne({ username: username })
 		.then((data) => {
 			if (!data) {
-				SOCoffee.Admin.create({
+				SOffee.Admin.create({
 					username: username,
 					password: password,
 				}).then((log) => {

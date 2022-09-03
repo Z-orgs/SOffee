@@ -12,10 +12,26 @@
 	<input type='text' name='rePassword' /><br />
 	<button type='submit'>Create</button>
 </form>
+<div class='productTab'>
+	<h2>Product</h2>
+	{{#each products}}
+		<div class='product'>
+			//show product
+			<br />
+			{{this}}
+			<br />
+			<button onclick='showEditProduct({{this._id}})'>Edit</button>
+			<form action='/admin/product' method='post'>
+
+			</form>
+			<button onclick='deleteProduct()'>Delete</button>
+		</div>
+	{{/each}}
+</div>
 <script src='/js/function.js'></script>
 <a href='/admin/logout'>Logout</a>
 
-<div>
+{{!-- <div>
 	<h4>Product: {{products}}</h4>
 </div>
 <div>
@@ -29,4 +45,4 @@
 </div>
 <div>
 	<h4>Admin: {{admins}}</h4>
-</div>
+</div> --}}

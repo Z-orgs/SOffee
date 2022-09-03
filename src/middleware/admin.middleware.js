@@ -1,6 +1,6 @@
-import SOCoffee from '../SOCoffee/index.js';
+import SOffee from '../SOffee/index.js';
 async function requireLogin(req, res, next) {
-	const admin = await SOCoffee.Admin.findOne({
+	const admin = await SOffee.Admin.findOne({
 		username: req.signedCookies.username,
 	});
 	if (admin) {

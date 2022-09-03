@@ -1,6 +1,6 @@
 import express from 'express';
-import * as adminController from '../controller/admin.controller.js';
-import * as authController from '../controller/auth/admin/admin.auth.js';
+import * as adminController from '../controller/admin/admin.controller.js';
+import * as authController from '../controller/admin/admin.auth.js';
 import { requireLogin } from '../middleware/admin.middleware.js';
 var router = express.Router();
 router.get('/', adminController.getIndex);
