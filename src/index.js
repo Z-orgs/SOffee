@@ -8,8 +8,8 @@ const app = express();
 const PORT = process.env.PORT || 80;
 configApp(app);
 connectDB();
-// app.use('/', indexRouter);
-// app.use('/admin', adminRouter);
+app.use('/', indexRouter);
+app.use('/admin', adminRouter);
 app.use((req, res) => {
 	res.render('./other/404');
 });
