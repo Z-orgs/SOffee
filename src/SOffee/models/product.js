@@ -7,7 +7,10 @@ const product = new Schema(
 		price: Number,
 		category: String,
 		quantity: Number,
-		sold: Number,
+		sold: {
+			type: Number,
+			default: 0,
+		},
 		date: Date,
 	},
 	{

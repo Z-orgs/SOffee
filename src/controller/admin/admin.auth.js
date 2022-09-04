@@ -32,31 +32,35 @@ function login(req, res) {
 }
 
 function signup(req, res) {
-	const username = req.body.username;
-	const password = md5(req.body.password);
-	const rePassword = md5(req.body.rePassword);
-	if (password !== rePassword) {
-		res.locals.msg = 'New passwords are not the same.';
-		return res.render('./admin/console');
-	}
-	SOffee.Admin.findOne({ username: username })
-		.then((data) => {
-			if (!data) {
-				SOffee.Admin.create({
-					username: username,
-					password: password,
-				}).then((log) => {
-					res.locals.msg = 'Sign up successful.';
+	if (req.body.typeOfForm == 'signup') {
+		const username = req.body.username;
+		const password = md5(req.body.password);
+		const rePassword = md5(req.body.rePassword);
+		if (password !== rePassword) {
+			res.locals.msg = 'New passwords are not the same.';
+			return res.render('./admin/console');
+		}
+		SOffee.Admin.findOne({ username: username })
+			.then((data) => {
+				if (!data) {
+					SOffee.Admin.create({
+						username: username,
+						password: password,
+					}).then((log) => {
+						res.locals.msg = 'Sign up successful.';
+						res.render('./admin/console');
+					});
+				} else {
+					res.locals.msg = 'User exist.';
 					res.render('./admin/console');
-				});
-			} else {
-				res.locals.msg = 'User exist.';
-				res.render('./admin/console');
-			}
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	} else {
+		res.redirect('/admin/console');
+	}
 }
 
 function logout(req, res) {

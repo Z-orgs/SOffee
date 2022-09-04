@@ -5,7 +5,7 @@ import indexRouter from './router/index.route.js';
 import connectDB from './config/database.connect.js';
 import adminRouter from './router/admin.route.js';
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 80;
 configApp(app);
 connectDB();
 app.use('/', indexRouter);

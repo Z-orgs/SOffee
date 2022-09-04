@@ -4,9 +4,9 @@
 	action='/member/{{member.username}}'
 	encType='multipart/form-data'
 >
-	<div class='avatar'>
-		<img src='{{member.avatar}}' alt='' />
-		<input type='file' name='avatarFile' />
+	<div class='image'>
+		<img src='{{member.image}}' alt='' />
+		<input type='file' name='image' />
 	</div>
 	<label for=''>Name</label><br />
 	<input type='text' value='{{member.name}}' name='name' /><br />

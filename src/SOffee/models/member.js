@@ -6,7 +6,6 @@ const member = new Schema(
 		image: String,
 		dob: Date,
 		address: String,
-		avatar: String,
 		username: {
 			type: String,
 			unique: true,

@@ -1,48 +1,198 @@
-{{username}}
-<br />
-{{msg}}
-<br />
-<h2>Create new admin</h2>
-<form method='post'>
-	<label for=''>admin</label><br />
-	<input type='text' name='username' /><br />
-	<label for=''>password</label><br />
-	<input type='text' name='password' /><br />
-	<label for=''>re-passwor</label><br />
-	<input type='text' name='rePassword' /><br />
-	<button type='submit'>Create</button>
-</form>
-<div class='productTab'>
-	<h2>Product</h2>
-	{{#each products}}
-		<div class='product'>
-			//show product
-			<br />
-			{{this}}
-			<br />
-			<button onclick='showEditProduct({{this._id}})'>Edit</button>
-			<form action='/admin/product' method='post'>
-
-			</form>
-			<button onclick='deleteProduct()'>Delete</button>
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<title>Admin</title>
+	</head>
+	<body>
+		{{username}}
+		<br />
+		{{msg}}
+		<br />
+		<div class='productTab'>
+			<h2>Product</h2>
+			<div class='addProduct'>
+				<button onclick='showForm(`AddNewProduct`)'>Add new product</button>
+				<form
+					action='/admin/product/create'
+					id='AddNewProduct'
+					method='post'
+					enctype='multipart/form-data'
+					hidden
+				>
+					<h2>create {{this.name}}</h2>
+					<label for=''>image</label><br />
+					<input type='file' name='image' /><br />
+					<label for=''>name</label><br />
+					<input type='text' name='name' /><br />
+					<label for=''>price</label><br />
+					<input type='text' name='price' /><br />
+					<label for=''>category</label><br />
+					<input type='text' name='category' /><br />
+					<label for=''>quantity</label><br />
+					<input type='number' name='quantity' />
+					<br />
+					<label for=''>sold</label><br />
+					<input type='number' name='sold' /><br />
+					<button onclick='createProduct();'>Create</button>
+				</form>
+			</div>
+			{{#each products}}
+				<div class='product'>
+					{{! show product }}
+					<br />
+					{{this}}
+					<br />
+					<button onclick='showForm(`{{this._id}}`)'>Edit</button>
+					<form
+						id='{{this._id}}'
+						action='/admin/product/update/{{this._id}}'
+						method='post'
+						enctype='multipart/form-data'
+						hidden
+					>
+						<h2>edit {{this.name}}</h2>
+						<label for=''>image</label><br />
+						<img src='{{this.image}}' alt='' /><br />
+						<input
+							type='file'
+							name='image'
+							value='{{this.image}}'
+						/><br />
+						<label for=''>name</label><br />
+						<input
+							type='text'
+							name='name'
+							value='{{this.name}}'
+						/><br />
+						<label for=''>price</label><br />
+						<input
+							type='text'
+							name='price'
+							value='{{this.price}}'
+						/><br />
+						<label for=''>category</label><br />
+						<input
+							type='text'
+							name='category'
+							value='{{this.category}}'
+						/><br />
+						<label for=''>quantity</label><br />
+						<input
+							type='number'
+							name='quantity'
+							value='{{this.quantity}}'
+						/>
+						<br />
+						<label for=''>sold</label><br />
+						<input
+							type='number'
+							name='sold'
+							value='{{this.sold}}'
+						/><br />
+						<button
+							onclick="updateProduct('{{this._id}}');"
+						>Update</button>
+					</form>
+					<button
+						onclick='deleteProduct(`{{this._id}}`)'
+					>Delete</button>
+				</div>
+			{{/each}}
 		</div>
-	{{/each}}
-</div>
-<script src='/js/function.js'></script>
-<a href='/admin/logout'>Logout</a>
-
-{{!-- <div>
-	<h4>Product: {{products}}</h4>
-</div>
-<div>
-	<h4>Member: {{members}}</h4>
-</div>
-<div>
-	<h4>Guest: {{guests}}</h4>
-</div>
-<div>
-	<h4>Bills: {{bills}}</h4>
-</div>
-<div>
-	<h4>Admin: {{admins}}</h4>
-</div> --}}
+		<div class='memberTab'>
+			<h2>Member</h2>
+			<div class='addMember'>
+				<button onclick='showForm(`AddNewMember`)'>Add new member</button>
+				<form
+					action='/admin/member/create'
+					id='AddNewMember'
+					method='post'
+					enctype='multipart/form-data'
+					hidden
+				>
+					<h2>create {{this.name}}</h2>
+					<label for=''>image</label><br />
+					<input type='file' name='image' /><br />
+					<label for=''>name</label><br />
+					<input type='text' name='name' /><br />
+					<label for=''>price</label><br />
+					<input type='text' name='price' /><br />
+					<label for=''>category</label><br />
+					<input type='text' name='category' /><br />
+					<label for=''>quantity</label><br />
+					<input type='number' name='quantity' />
+					<br />
+					<label for=''>sold</label><br />
+					<input type='number' name='sold' /><br />
+					<button onclick='createProduct();'>Create</button>
+				</form>
+			</div>
+			{{#each products}}
+				<div class='product'>
+					{{! show product }}
+					<br />
+					{{this}}
+					<br />
+					<button onclick='showForm(`{{this._id}}`)'>Edit</button>
+					<form
+						id='{{this._id}}'
+						action='/admin/product/update/{{this._id}}'
+						method='post'
+						enctype='multipart/form-data'
+						hidden
+					>
+						<h2>edit {{this.name}}</h2>
+						<label for=''>image</label><br />
+						<img src='{{this.image}}' alt='' /><br />
+						<input
+							type='file'
+							name='image'
+							value='{{this.image}}'
+						/><br />
+						<label for=''>name</label><br />
+						<input
+							type='text'
+							name='name'
+							value='{{this.name}}'
+						/><br />
+						<label for=''>price</label><br />
+						<input
+							type='text'
+							name='price'
+							value='{{this.price}}'
+						/><br />
+						<label for=''>category</label><br />
+						<input
+							type='text'
+							name='category'
+							value='{{this.category}}'
+						/><br />
+						<label for=''>quantity</label><br />
+						<input
+							type='number'
+							name='quantity'
+							value='{{this.quantity}}'
+						/>
+						<br />
+						<label for=''>sold</label><br />
+						<input
+							type='number'
+							name='sold'
+							value='{{this.sold}}'
+						/><br />
+						<button
+							onclick="updateProduct('{{this._id}}');"
+						>Update</button>
+					</form>
+					<button
+						onclick='deleteProduct(`{{this._id}}`)'
+					>Delete</button>
+				</div>
+			{{/each}}
+		</div>
+		<script src='/js/function.js'></script>
+		<a href='/admin/logout'>Logout</a>
+	</body>
+</html>

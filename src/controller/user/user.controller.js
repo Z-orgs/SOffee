@@ -48,29 +48,43 @@ async function getMember(req, res) {
 }
 async function updateMember(req, res) {
 	try {
-		let uploadResult;
 		if (req.files) {
-			const avatarFile = req.files.avatarFile;
-			const uploadPath = appRoot + '/src/public/files/' + avatarFile.name;
-			await avatarFile.mv(uploadPath);
-			uploadResult = await imgur.uploadFile(uploadPath);
+			const image = req.files.image;
+			const uploadPath = appRoot + '/src/public/files/' + image.name;
+			await image.mv(uploadPath);
+			let uploadResult = await imgur.uploadFile(uploadPath);
 			fs.unlinkSync(uploadPath);
-		}
-		const { name, dob, address, tel } = req.body;
-		await SOffee.Member.findOneAndUpdate(
-			{
-				username: req.params.username,
-			},
-			{
-				$set: {
-					name: name,
-					avatar: uploadResult ? uploadResult.link : '',
-					dob: dob ? new Date(dob) : Date.now(),
-					address: address,
-					tel: tel,
+			const { name, dob, address, tel } = req.body;
+			await SOffee.Member.findOneAndUpdate(
+				{
+					username: req.params.username,
 				},
-			},
-		);
+				{
+					$set: {
+						name: name,
+						image: uploadResult ? uploadResult.link : '',
+						dob: dob ? new Date(dob) : Date.now(),
+						address: address,
+						tel: tel,
+					},
+				},
+			);
+		} else {
+			const { name, dob, address, tel } = req.body;
+			await SOffee.Member.findOneAndUpdate(
+				{
+					username: req.params.username,
+				},
+				{
+					$set: {
+						name: name,
+						dob: dob ? new Date(dob) : Date.now(),
+						address: address,
+						tel: tel,
+					},
+				},
+			);
+		}
 	} catch (error) {
 		console.log(error);
 	} finally {

@@ -5,7 +5,7 @@ import Bill from './models/bill.js';
 import Product from './models/product.js';
 import Message from './models/message.js';
 
-const SOCoffee = {
+const SOffee = {
 	Admin,
 	Member,
 	Guest,
@@ -13,4 +13,4 @@ const SOCoffee = {
 	Product,
 	Message,
 };
-export default SOCoffee;
+export default SOffee;

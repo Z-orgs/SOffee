@@ -80,6 +80,22 @@ function changePassword() {
 			console.log(log.msg);
 		});
 }
+function showForm(_id) {
+	document.getElementById(_id).removeAttribute('hidden');
+}
+function deleteProduct(_id) {
+	fetch(`/admin/product/delete/${_id}`, {
+		method: 'delete',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+		},
+	})
+		.then((log) => log.json())
+		.then((log) => {
+			location.reload();
+		});
+}
 if (window.history.replaceState) {
 	window.history.replaceState(null, null, window.location.href);
 }
