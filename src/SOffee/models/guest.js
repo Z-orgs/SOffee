@@ -7,6 +7,7 @@ const guest = new Schema(
 		Address: String,
 		cart: [],
 		tel: String,
+		date: Date,
 	},
 	{
 		collection: 'Guest',

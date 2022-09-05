@@ -192,6 +192,20 @@
 				</div>
 			{{/each}}
 		</div>
+		<div class='guestTab'>
+			<h2>Guest</h2>
+			{{#each guests}}
+				<div class='guest'>
+					{{! show product }}
+					<br />
+					{{this}}
+					<br />
+					<button
+						onclick='deleteGuest(`{{this._id}}`)'
+					>Delete</button>
+				</div>
+			{{/each}}
+		</div>
 		<script src='/js/function.js'></script>
 		<a href='/admin/logout'>Logout</a>
 	</body>

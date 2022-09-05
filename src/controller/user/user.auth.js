@@ -75,7 +75,7 @@ function auth(req, res) {
 			) {
 				tempUsername = shortid.generate();
 			}
-			SOffee.Guest.create({ username: tempUsername })
+			SOffee.Guest.create({ username: tempUsername, date: Date.now() })
 				.then((data) => {
 					res.cookie('username', tempUsername, {
 						signed: true,

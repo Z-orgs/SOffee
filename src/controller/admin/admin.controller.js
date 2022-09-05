@@ -10,11 +10,11 @@ function getIndex(req, res) {
 }
 async function getConsole(req, res) {
 	try {
-		let members = await SOffee.Member.find({});
-		const products = await SOffee.Product.find({});
-		const guests = await SOffee.Guest.find({});
-		const bills = await SOffee.Bill.find({});
-		const admins = await SOffee.Admin.find({});
+		let members = await SOffee.Member.find({}).sort({ date: -1 });
+		const products = await SOffee.Product.find({}).sort({ date: -1 });
+		const guests = await SOffee.Guest.find({}).sort({ date: -1 });
+		const bills = await SOffee.Bill.find({}).sort({ date: -1 });
+		const admins = await SOffee.Admin.find({}).sort({ date: -1 });
 		members = members.map((member) => {
 			member = { ...member._doc };
 			member.dob = formatDate(member.dob);
@@ -200,4 +200,16 @@ const MemberController = {
 		res.redirect('/admin/console');
 	},
 };
-export { getIndex, getConsole, ProductController, MemberController };
+const GuestController = {
+	deleteGuest: async (req, res) => {
+		await SOffee.Guest.deleteOne({ _id: req.params.id });
+		res.redirect('/admin/console');
+	},
+};
+export {
+	getIndex,
+	getConsole,
+	ProductController,
+	MemberController,
+	GuestController,
+};
