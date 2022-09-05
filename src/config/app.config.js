@@ -10,6 +10,7 @@ function configApp(app) {
 	app.set('views', './src/views');
 	app.use(express.urlencoded({ extended: false }));
 	app.use(express.json());
-	app.use(cookieParser(shortid.generate()));
+	// app.use(cookieParser(shortid.generate()));
+	app.use(cookieParser('a'));
 }
 export default configApp;

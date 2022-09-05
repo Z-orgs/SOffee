@@ -21,7 +21,7 @@
 					enctype='multipart/form-data'
 					hidden
 				>
-					<h2>create {{this.name}}</h2>
+					<h2>create</h2>
 					<label for=''>image</label><br />
 					<input type='file' name='image' /><br />
 					<label for=''>name</label><br />
@@ -35,7 +35,7 @@
 					<br />
 					<label for=''>sold</label><br />
 					<input type='number' name='sold' /><br />
-					<button onclick='createProduct();'>Create</button>
+					<button type='submit'>Create</button>
 				</form>
 			</div>
 			{{#each products}}
@@ -91,9 +91,7 @@
 							name='sold'
 							value='{{this.sold}}'
 						/><br />
-						<button
-							onclick="updateProduct('{{this._id}}');"
-						>Update</button>
+						<button type='submit'>Update</button>
 					</form>
 					<button
 						onclick='deleteProduct(`{{this._id}}`)'
@@ -112,25 +110,28 @@
 					enctype='multipart/form-data'
 					hidden
 				>
-					<h2>create {{this.name}}</h2>
+					<h2>create</h2>
 					<label for=''>image</label><br />
 					<input type='file' name='image' /><br />
 					<label for=''>name</label><br />
 					<input type='text' name='name' /><br />
-					<label for=''>price</label><br />
-					<input type='text' name='price' /><br />
-					<label for=''>category</label><br />
-					<input type='text' name='category' /><br />
-					<label for=''>quantity</label><br />
-					<input type='number' name='quantity' />
-					<br />
-					<label for=''>sold</label><br />
-					<input type='number' name='sold' /><br />
-					<button onclick='createProduct();'>Create</button>
+					<label for=''>dob</label><br />
+					<input type='date' name='dob' /><br />
+					<label for=''>address</label><br />
+					<input type='text' name='address' /><br />
+					<label for=''>username</label><br />
+					<input type='text' name='username' /><br />
+					<label for=''>password</label><br />
+					<input type='text' name='password' /><br />
+					<label for=''>star</label><br />
+					<input type='number' name='star' /><br />
+					<label for=''>tel</label><br />
+					<input type='text' name='tel' /><br />
+					<button type='submit'>Create</button>
 				</form>
 			</div>
-			{{#each products}}
-				<div class='product'>
+			{{#each members}}
+				<div class='member'>
 					{{! show product }}
 					<br />
 					{{this}}
@@ -138,56 +139,55 @@
 					<button onclick='showForm(`{{this._id}}`)'>Edit</button>
 					<form
 						id='{{this._id}}'
-						action='/admin/product/update/{{this._id}}'
+						action='/admin/member/update/{{this._id}}'
 						method='post'
 						enctype='multipart/form-data'
 						hidden
 					>
 						<h2>edit {{this.name}}</h2>
 						<label for=''>image</label><br />
-						<img src='{{this.image}}' alt='' /><br />
-						<input
-							type='file'
-							name='image'
-							value='{{this.image}}'
-						/><br />
+						<img src='{{this.image}}' alt='' />
+						<input type='file' name='image' /><br />
 						<label for=''>name</label><br />
 						<input
 							type='text'
 							name='name'
 							value='{{this.name}}'
 						/><br />
-						<label for=''>price</label><br />
-						<input
-							type='text'
-							name='price'
-							value='{{this.price}}'
-						/><br />
-						<label for=''>category</label><br />
-						<input
-							type='text'
-							name='category'
-							value='{{this.category}}'
-						/><br />
-						<label for=''>quantity</label><br />
-						<input
-							type='number'
-							name='quantity'
-							value='{{this.quantity}}'
+						<label for=''>dob</label><br />
+						<input type='date' name='dob' value='{{this.dob}}' /><br
 						/>
-						<br />
-						<label for=''>sold</label><br />
+						<label for=''>address</label><br />
+						<input
+							type='text'
+							name='address'
+							value='{{this.address}}'
+						/><br />
+						<label for=''>username</label><br />
+						<input
+							type='text'
+							name='username'
+							value='{{this.username}}'
+						/><br />
+						<label for=''>password</label><br />
+						<input
+							type='text'
+							name='password'
+							value='{{this.password}}'
+						/><br />
+						<label for=''>star</label><br />
 						<input
 							type='number'
-							name='sold'
-							value='{{this.sold}}'
+							name='star'
+							value='{{this.star}}'
 						/><br />
-						<button
-							onclick="updateProduct('{{this._id}}');"
-						>Update</button>
+						<label for=''>tel</label><br />
+						<input type='text' name='tel' value='{{this.tel}}' /><br
+						/>
+						<button type='submit'>update</button>
 					</form>
 					<button
-						onclick='deleteProduct(`{{this._id}}`)'
+						onclick='deleteMember(`{{this._id}}`)'
 					>Delete</button>
 				</div>
 			{{/each}}
