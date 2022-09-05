@@ -2,7 +2,7 @@
 
 `const Author = ["drm", "Yuno"]`
 
-## Technology used
+## Dependencies
 
 -   NodeJS
 -   Yarn
