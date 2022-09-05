@@ -4,16 +4,22 @@ import appRoot from 'app-root-path';
 import fs from 'fs';
 import shortid from 'shortid';
 import md5 from 'md5';
+import { formatDate } from '../../function/function.js';
 function getIndex(req, res) {
 	res.render('./admin/index');
 }
 async function getConsole(req, res) {
 	try {
-		const members = await SOffee.Member.find({});
+		let members = await SOffee.Member.find({});
 		const products = await SOffee.Product.find({});
 		const guests = await SOffee.Guest.find({});
 		const bills = await SOffee.Bill.find({});
 		const admins = await SOffee.Admin.find({});
+		members = members.map((member) => {
+			member = { ...member._doc };
+			member.dob = formatDate(member.dob);
+			return member;
+		});
 		res.render('./admin/console', {
 			members: members,
 			products: products,
@@ -43,6 +49,7 @@ const ProductController = {
 					sold: sold ? sold : 0,
 					category: category ? category : '',
 					image: uploadResult ? uploadResult.link : '',
+					date: Date.now(),
 				});
 			} else {
 				const { name, price, category, quantity, sold } = req.body;
@@ -52,7 +59,7 @@ const ProductController = {
 					quantity: quantity ? quantity : 0,
 					sold: sold ? sold : 0,
 					category: category ? category : '',
-					image: '',
+					date: Date.now(),
 				});
 			}
 		} catch (error) {

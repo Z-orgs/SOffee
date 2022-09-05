@@ -8,6 +8,8 @@ router.get('/console', requireLogin, adminController.getConsole);
 router.post('/console', requireLogin, authController.signup);
 router.post('/', authController.login);
 router.get('/logout', authController.logout);
+// product
+
 router.post(
 	'/product/create',
 	requireLogin,
@@ -22,5 +24,22 @@ router.delete(
 	'/product/delete/:id',
 	requireLogin,
 	adminController.ProductController.deleteProduct,
+);
+//member
+
+router.post(
+	'/member/create',
+	requireLogin,
+	adminController.MemberController.createMember,
+);
+router.post(
+	'/member/update/:id',
+	requireLogin,
+	adminController.MemberController.updateMember,
+);
+router.delete(
+	'/member/delete/:id',
+	requireLogin,
+	adminController.MemberController.deleteMember,
 );
 export default router;
