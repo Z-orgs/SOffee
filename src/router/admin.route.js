@@ -5,7 +5,6 @@ import { requireLogin, ifLoggedIn } from '../middleware/admin.middleware.js';
 var router = express.Router();
 router.get('/', ifLoggedIn, admin.getIndex);
 router.get('/console', requireLogin, admin.getConsole);
-router.post('/console', requireLogin, authController.signup);
 router.post('/', authController.login);
 router.get('/logout', authController.logout);
 // product
@@ -48,5 +47,18 @@ router.delete(
 	'/guest/delete/:id',
 	requireLogin,
 	admin.GuestController.deleteGuest,
+);
+//admin
+
+router.post('/admin/create', requireLogin, admin.AdminController.createAdmin);
+router.post(
+	'/admin/update/:id',
+	requireLogin,
+	admin.AdminController.updateAdmin,
+);
+router.delete(
+	'/admin/delete/:id',
+	requireLogin,
+	admin.AdminController.deleteAdmin,
 );
 export default router;

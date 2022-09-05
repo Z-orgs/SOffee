@@ -206,10 +206,43 @@ const GuestController = {
 		res.redirect('/admin/console');
 	},
 };
+const AdminController = {
+	createAdmin: async (req, res) => {
+		try {
+			await SOffee.Admin.create({
+				username: req.body.username,
+				password: md5(req.body.password),
+			});
+		} catch (error) {
+			console.log(error);
+		} finally {
+			res.redirect('/admin/console');
+		}
+	},
+	updateAdmin: async (req, res) => {
+		try {
+			await SOffee.Admin.findByIdAndUpdate(req.params.id, {
+				$set: {
+					username: req.body.username,
+					password: md5(req.body.password),
+				},
+			});
+		} catch (error) {
+			console.log(error);
+		} finally {
+			res.redirect('/admin/console');
+		}
+	},
+	deleteAdmin: async (req, res) => {
+		await SOffee.Admin.deleteOne({ _id: req.params.id });
+		res.redirect('/admin/console');
+	},
+};
 export {
 	getIndex,
 	getConsole,
 	ProductController,
 	MemberController,
 	GuestController,
+	AdminController,
 };
