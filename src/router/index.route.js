@@ -15,7 +15,7 @@ router.post('/addToCart', requireLogin, indexController.addToCart);
 router.post('/cart', requireLogin, indexController.submitCart);
 router.get('/cart/bill', requireLogin, csrfProtection, indexController.getBill);
 router.get('/bill', requireLogin, indexController.getUserBill);
-router.post('/bill', requireUsername, indexController.submitBill);
+router.post('/bill', requireLogin, indexController.submitBill);
 router.post('/contact', requireLogin, indexController.sendMessage);
 router.get('/logout', requireLogin, authController.logout);
 router.post('/changePassword', requireLogin, authController.changePassword);

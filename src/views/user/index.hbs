@@ -51,7 +51,7 @@
 				{{this}}
 				<div class='product'>
 					<input type='number' id='quantity-{{this._id}}' />
-					<button onclick='addToCart('{{this._id}}');'>+</button>
+					<button onclick='addToCart(`{{this._id}}`);'>+</button>
 				</div>
 			{{/each}}
 			<div class='changePassword'>

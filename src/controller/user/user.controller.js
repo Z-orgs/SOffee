@@ -131,14 +131,15 @@ function addToCart(req, res) {
 					SOffee.Member.updateOne(
 						{ username: req.signedCookies.username },
 						{
-							cart: [
-								{
+							$push: {
+								cart: {
 									productId: req.body.productId,
 									quantity: req.body.quantity,
 								},
-							],
+							},
 						},
 					)
+
 						.then((data) => {
 							if (data.modifiedCount == 1) {
 								return res
@@ -228,6 +229,7 @@ function getBill(req, res) {
 	});
 }
 function submitBill(req, res) {
+	console.log('a');
 	SOffee.Bill.updateOne(
 		{ _id: req.body.billId },
 		{
@@ -264,9 +266,7 @@ function submitBill(req, res) {
 }
 async function getUserBill(req, res) {
 	const bills = await SOffee.Bill.find({
-		customer: {
-			username: req.signedCookies.username,
-		},
+		username: req.signedCookies.username,
 		isSend: true,
 	});
 	if (bills.length == 0) {
@@ -283,6 +283,7 @@ function sendMessage(req, res) {
 		email: req.body.email,
 		subject: req.body.subject,
 		message: req.body.message,
+		date: Date.now(),
 	})
 		.then((data) => {
 			res.render('./user/index', {

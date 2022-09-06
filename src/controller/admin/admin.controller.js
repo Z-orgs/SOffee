@@ -13,8 +13,11 @@ async function getConsole(req, res) {
 		let members = await SOffee.Member.find({}).sort({ date: -1 });
 		const products = await SOffee.Product.find({}).sort({ date: -1 });
 		const guests = await SOffee.Guest.find({}).sort({ date: -1 });
-		const bills = await SOffee.Bill.find({}).sort({ date: -1 });
+		const bills = await SOffee.Bill.find({ isSend: true }).sort({
+			date: -1,
+		});
 		const admins = await SOffee.Admin.find({}).sort({ date: -1 });
+		const messages = await SOffee.Message.find({}).sort({ date: -1 });
 		members = members.map((member) => {
 			member = { ...member._doc };
 			member.dob = formatDate(member.dob);
@@ -26,6 +29,7 @@ async function getConsole(req, res) {
 			guests: guests,
 			bills: bills,
 			admins: admins,
+			messages: messages,
 		});
 	} catch (error) {
 		console.log(error);
@@ -234,7 +238,36 @@ const AdminController = {
 		}
 	},
 	deleteAdmin: async (req, res) => {
-		await SOffee.Admin.deleteOne({ _id: req.params.id });
+		// await SOffee.Admin.deleteOne({ _id: req.params.id });
+		res.redirect('/admin/console');
+	},
+};
+const BillController = {
+	updateBill: async (req, res) => {
+		try {
+			await SOffee.Bill.findByIdAndUpdate(req.params.id, {
+				$set: {
+					status: {
+						confirm: req.body.confirm,
+						shipping: req.body.shipping,
+						finish: req.body.finish,
+					},
+				},
+			});
+		} catch (error) {
+			console.log(error);
+		} finally {
+			res.redirect('/admin/console');
+		}
+	},
+	deleteBill: async (req, res) => {
+		await SOffee.Bill.deleteOne({ _id: req.params.id });
+		res.redirect('/admin/console');
+	},
+};
+const MessageController = {
+	deleteMessage: async (req, res) => {
+		await SOffee.Message.deleteOne({ _id: req.params.id });
 		res.redirect('/admin/console');
 	},
 };
@@ -245,4 +278,6 @@ export {
 	MemberController,
 	GuestController,
 	AdminController,
+	BillController,
+	MessageController,
 };

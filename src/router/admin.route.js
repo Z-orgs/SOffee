@@ -61,4 +61,19 @@ router.delete(
 	requireLogin,
 	admin.AdminController.deleteAdmin,
 );
+//bill
+
+router.post('/bill/update/:id', requireLogin, admin.BillController.updateBill);
+router.delete(
+	'/bill/delete/:id',
+	requireLogin,
+	admin.BillController.deleteBill,
+);
+//message
+
+router.delete(
+	'/message/delete/:id',
+	requireLogin,
+	admin.MessageController.deleteMessage,
+);
 export default router;

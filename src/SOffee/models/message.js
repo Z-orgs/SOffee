@@ -6,6 +6,7 @@ const message = new Schema(
 		email: String,
 		subject: String,
 		message: String,
+		date: Date,
 	},
 	{
 		collection: 'Message',

@@ -1,28 +1,32 @@
-<html lang="en">
+<html lang='en'>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+	<head>
+		<meta charset='UTF-8' />
+		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<title>Document</title>
+	</head>
 
-<body>
-    {{!-- {{#each bill.product}}
+	<body>
+		{{!-- {{#each bill.product}}
     {{this.product.price}}
     {{/each}}
     {{bill}} --}}
-    <form action="/bill" method="post">
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <input type="hidden" name="billId" value="{{bill._id}}">
-        <label for="">address</label><br>
-        <input type="text" name="shipTo" value="{{bill.customer.address}}"><br>
-        <label for="">tel</label>
-        <input type="text" name="tel" value="{{bill.customer.tel}}">
-        <label for="">Payment method</label><br>
-        <input type="text" value="COD" disabled>
-        <button type="submit">order</button>
-    </form>
-</body>
+		<form action='/bill' method='post'>
+			<input type='hidden' name='_csrf' value='{{csrfToken}}' />
+			<input type='hidden' name='billId' value='{{bill._id}}' />
+			<label for=''>address</label><br />
+			<input
+				type='text'
+				name='shipTo'
+				value='{{bill.customer.address}}'
+			/><br />
+			<label for=''>tel</label>
+			<input type='text' name='tel' value='{{bill.customer.tel}}' /><br />
+			<label for=''>Payment method</label><br />
+			<input type='text' value='COD' disabled />
+			<button type='submit'>order</button>
+		</form>
+	</body>
 
 </html>

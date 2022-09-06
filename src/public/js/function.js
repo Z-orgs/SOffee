@@ -135,6 +135,32 @@ function deleteAdmin(_id) {
 			location.reload();
 		});
 }
+function deleteBill(_id) {
+	fetch(`/admin/bill/delete/${_id}`, {
+		method: 'delete',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+		},
+	})
+		.then((log) => log.json())
+		.then((log) => {
+			location.reload();
+		});
+}
+function deleteMessage(_id) {
+	fetch(`/admin/message/delete/${_id}`, {
+		method: 'delete',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+		},
+	})
+		.then((log) => log.json())
+		.then((log) => {
+			location.reload();
+		});
+}
 if (window.history.replaceState) {
 	window.history.replaceState(null, null, window.location.href);
 }

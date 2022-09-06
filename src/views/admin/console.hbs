@@ -260,6 +260,76 @@
 				</div>
 			{{/each}}
 		</div>
+		<div class='billTab'>
+			<h2>Bill</h2>
+			{{#each bills}}
+				<div class='bill'>
+					{{! show bill }}
+					<br />
+					{{this}}
+					<br />
+					<button onclick='showForm(`{{this._id}}`)'>Edit</button>
+					<form
+						id='{{this._id}}'
+						action='/admin/bill/update/{{this._id}}'
+						method='post'
+						hidden
+					>
+						<h2>edit {{this._id}}</h2>
+						<h3>Status</h3><br />
+						<label for=''>confirm</label>
+						<select name='confirm'>
+							{{#if this.status.confirm}}
+								<option value='true' selected>true</option>
+								<option value='false'>false</option>
+							{{else}}
+								<option value='true'>true</option>
+								<option value='false' selected>false</option>
+							{{/if}}
+						</select>
+						<br />
+						<label for=''>shipping</label>
+						<select name='shipping'>
+							{{#if this.status.shipping}}
+								<option value='true' selected>true</option>
+								<option value='false'>false</option>
+							{{else}}
+								<option value='true'>true</option>
+								<option value='false' selected>false</option>
+							{{/if}}
+						</select>
+						<br />
+						<label for=''>finish</label>
+						<select name='finish'>
+							{{#if this.status.finish}}
+								<option value='true' selected>true</option>
+								<option value='false'>false</option>
+							{{else}}
+								<option value='true'>true</option>
+								<option value='false' selected>false</option>
+							{{/if}}
+						</select>
+						<br />
+						<button type='submit'>update</button>
+					</form>
+					<button onclick='deleteBill(`{{this._id}}`)'>Delete</button>
+				</div>
+			{{/each}}
+		</div>
+		<div class='feedbackTab'>
+			<h2>feedback</h2>
+			{{#each messages}}
+				<div class='message'>
+					{{! show message }}
+					<br />
+					{{this}}
+					<br />
+					<button
+						onclick='deleteMessage(`{{this._id}}`)'
+					>Delete</button>
+				</div>
+			{{/each}}
+		</div>
 		<script src='/js/function.js'></script>
 		<a href='/admin/logout'>Logout</a>
 	</body>
