@@ -296,6 +296,12 @@ function sendMessage(req, res) {
 			});
 		});
 }
+async function getProduct(req, res) {
+	var product = await SOffee.Product.findById(req.params.id);
+	res.render('./user/product', {
+		product,
+	});
+}
 export {
 	getIndex,
 	getMember,
@@ -307,4 +313,5 @@ export {
 	submitBill,
 	getUserBill,
 	sendMessage,
+	getProduct,
 };

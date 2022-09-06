@@ -10,6 +10,7 @@ var router = express.Router();
 var csrfProtection = csurf({ cookie: true });
 router.get('/', indexController.getIndex);
 router.post('/', authController.auth);
+router.get('/product/:id', requireLogin, indexController.getProduct);
 router.get('/cart', requireLogin, indexController.getCart);
 router.post('/addToCart', requireLogin, indexController.addToCart);
 router.post('/cart', requireLogin, indexController.submitCart);

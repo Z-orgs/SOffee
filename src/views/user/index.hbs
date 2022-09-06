@@ -48,10 +48,10 @@
 				<button type='submit'>Send</button>
 			</form>
 			{{#each product}}
-				{{this}}
 				<div class='product'>
-					<input type='number' id='quantity-{{this._id}}' />
-					<button onclick='addToCart(`{{this._id}}`);'>+</button>
+					{{this}}
+					<br />
+					<a href='/product/{{this._id}}'>{{this.name}}</a>
 				</div>
 			{{/each}}
 			<div class='changePassword'>
