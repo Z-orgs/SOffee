@@ -1,9 +1,9 @@
 import express from 'express';
 import SOffee from './SOffee/index.js';
 import configApp from './config/app.config.js';
-import indexRouter from './router/index.route.js';
+import indexRouter from './router/index.routes.js';
 import connectDB from './config/database.connect.js';
-import adminRouter from './router/admin.route.js';
+import adminRouter from './router/admin.routes.js';
 const app = express();
 const PORT = process.env.PORT || 80;
 configApp(app);
