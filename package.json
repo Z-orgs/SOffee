@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "yarn tsc && node ./dist/index.js",
-    "dev": "nodemon ./src/index.ts"
+    "dev": "nodemon"
   },
   "name": "SOffee",
   "version": "1.0.0",
