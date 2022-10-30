@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import configApp from './config/app';
 import indexRouter from './router/user';
 import connectDB from './config/connect';
@@ -9,7 +9,7 @@ configApp(app);
 if (connectDB()) {
     app.use('/', indexRouter);
     app.use('/admin', adminRouter);
-    app.use((req, res) => {
+    app.use((req: Request, res: Response) => {
         res.render('./other/404');
     });
     app.listen(PORT, () => {
