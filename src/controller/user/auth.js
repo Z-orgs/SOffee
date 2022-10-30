@@ -91,7 +91,6 @@ function auth(req, res) {
             let tempUsername = shortid_1.default.generate();
             const memberList = yield SOffee_1.default.Member.find({ username: tempUsername });
             while (memberList.length !== 0) {
-                console.log(tempUsername);
                 tempUsername = shortid_1.default.generate();
             }
             SOffee_1.default.Guest.create({ username: tempUsername, date: Date.now() })
