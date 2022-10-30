@@ -1,4 +1,10 @@
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+exports.formatDate = void 0;
 const formatDate = (date) => {
+	if (!date) {
+		return '';
+	}
 	let d = new Date(date);
 	let month = (d.getMonth() + 1).toString();
 	let day = d.getDate().toString();
@@ -11,4 +17,4 @@ const formatDate = (date) => {
 	}
 	return [year, month, day].join('-');
 };
-export { formatDate };
+exports.formatDate = formatDate;

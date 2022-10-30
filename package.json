@@ -14,7 +14,7 @@
     "url": "https://github.com/SO-devs/SOffee.git"
   },
   "license": "MIT",
-  "type": "module",
+  "type": "commonjs",
   "packageManager": "yarn@3.2.2",
   "bugs": {
     "url": "https://github.com/SO-devs/SOffee/issues",

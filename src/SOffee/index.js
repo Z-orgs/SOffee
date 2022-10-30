@@ -1,16 +1,22 @@
-import Admin from './models/admin.js';
-import Member from './models/member.js';
-import Guest from './models/guest.js';
-import Bill from './models/bill.js';
-import Product from './models/product.js';
-import Message from './models/message.js';
-
+'use strict';
+var __importDefault =
+	(this && this.__importDefault) ||
+	function (mod) {
+		return mod && mod.__esModule ? mod : { default: mod };
+	};
+Object.defineProperty(exports, '__esModule', { value: true });
+const admin_1 = __importDefault(require('./models/admin'));
+const member_1 = __importDefault(require('./models/member'));
+const guest_1 = __importDefault(require('./models/guest'));
+const bill_1 = __importDefault(require('./models/bill'));
+const product_1 = __importDefault(require('./models/product'));
+const message_1 = __importDefault(require('./models/message'));
 const SOffee = {
-	Admin,
-	Member,
-	Guest,
-	Bill,
-	Product,
-	Message,
+	Admin: admin_1.default,
+	Member: member_1.default,
+	Guest: guest_1.default,
+	Bill: bill_1.default,
+	Product: product_1.default,
+	Message: message_1.default,
 };
-export default SOffee;
+exports.default = SOffee;

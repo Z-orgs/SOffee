@@ -1,11 +1,18 @@
-import SOffee from '../../SOffee/index.js';
-import md5 from 'md5';
+'use strict';
+var __importDefault =
+	(this && this.__importDefault) ||
+	function (mod) {
+		return mod && mod.__esModule ? mod : { default: mod };
+	};
+Object.defineProperty(exports, '__esModule', { value: true });
+exports.logout = exports.login = void 0;
+const SOffee_1 = __importDefault(require('../../SOffee'));
+const md5_1 = __importDefault(require('md5'));
 const mls = 18000000;
-
 function login(req, res) {
 	const username = req.body.username;
-	const password = md5(req.body.password);
-	SOffee.Admin.findOne({ username: username })
+	const password = (0, md5_1.default)(req.body.password);
+	SOffee_1.default.Admin.findOne({ username: username })
 		.then((data) => {
 			if (data) {
 				if (data.password === password) {
@@ -30,8 +37,9 @@ function login(req, res) {
 			console.log(err);
 		});
 }
+exports.login = login;
 function logout(req, res) {
 	res.clearCookie('username', { path: '/admin' });
 	res.redirect('/admin');
 }
-export { login, logout };
+exports.logout = logout;

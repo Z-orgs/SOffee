@@ -1,10 +1,17 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+'use strict';
+var __importDefault =
+	(this && this.__importDefault) ||
+	function (mod) {
+		return mod && mod.__esModule ? mod : { default: mod };
+	};
+Object.defineProperty(exports, '__esModule', { value: true });
+const mongoose_1 = __importDefault(require('mongoose'));
+const Schema = mongoose_1.default.Schema;
 const member = new Schema(
 	{
 		name: String,
 		image: String,
-		dob: Date,
+		dob: Date || String,
 		address: String,
 		username: {
 			type: String,
@@ -19,5 +26,5 @@ const member = new Schema(
 		collection: 'Member',
 	},
 );
-const Member = mongoose.model('Member', member);
-export default Member;
+const Member = mongoose_1.default.model('Member', member);
+exports.default = Member;
