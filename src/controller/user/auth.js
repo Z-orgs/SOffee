@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.changePassword = exports.logout = exports.auth = void 0;
 const SOffee_1 = __importDefault(require("../../SOffee"));
+const function_1 = __importDefault(require("../../function"));
 const md5_1 = __importDefault(require("md5"));
 const shortid_1 = __importDefault(require("shortid"));
 const mls = 18000000;
@@ -93,7 +94,7 @@ function auth(req, res) {
             while (memberList.length !== 0) {
                 tempUsername = shortid_1.default.generate();
             }
-            SOffee_1.default.Guest.create({ username: tempUsername, date: Date.now() })
+            SOffee_1.default.Guest.create({ username: tempUsername, date: (0, function_1.default)(new Date()) })
                 .then((data) => {
                 res.cookie('username', tempUsername, {
                     signed: true,
@@ -134,18 +135,17 @@ function changePassword(req, res) {
                 username: req.signedCookies.username,
             });
             if (oldPw !== (member === null || member === void 0 ? void 0 : member.password)) {
-                res.status(400).json({ status: 400, msg: 'Wrong password' });
+                return res.status(400).json({ status: 400, msg: 'Wrong password' });
             }
-            else if (newPw !== rePw) {
+            if (newPw !== rePw) {
                 res.status(401).json({
                     status: 401,
                     msg: 'Passwords are not the same.',
                 });
             }
             else {
-                SOffee_1.default.Member.updateOne({
+                yield SOffee_1.default.Member.updateOne({
                     username: req.signedCookies.username,
-                    password: oldPw,
                 }, {
                     $set: {
                         password: newPw,

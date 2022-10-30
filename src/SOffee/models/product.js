@@ -8,14 +8,14 @@ const Schema = mongoose_1.default.Schema;
 const product = new Schema({
     name: String,
     image: String,
-    price: Number,
+    price: { type: Number, default: 0 },
     category: String,
     quantity: Number,
     sold: {
         type: Number,
         default: 0,
     },
-    date: Date,
+    date: String,
 }, {
     collection: 'Product',
 });

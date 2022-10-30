@@ -11,7 +11,7 @@ const guest = new Schema({
     Address: String,
     cart: [],
     tel: String,
-    date: Date,
+    date: String,
 }, {
     collection: 'Guest',
 });

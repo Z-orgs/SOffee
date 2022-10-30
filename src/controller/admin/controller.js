@@ -19,7 +19,7 @@ const app_root_path_1 = __importDefault(require("app-root-path"));
 const fs_1 = __importDefault(require("fs"));
 const shortid_1 = __importDefault(require("shortid"));
 const md5_1 = __importDefault(require("md5"));
-const function_1 = require("../../function/function");
+const function_1 = __importDefault(require("../../function"));
 function getIndex(req, res) {
     res.render('./admin/index');
 }
@@ -27,7 +27,7 @@ exports.getIndex = getIndex;
 function getConsole(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let members = yield SOffee_1.default.Member.find({}).sort({ date: -1 });
+            const members = yield SOffee_1.default.Member.find({}).sort({ date: -1 });
             const products = yield SOffee_1.default.Product.find({}).sort({ date: -1 });
             const guests = yield SOffee_1.default.Guest.find({}).sort({ date: -1 });
             const bills = yield SOffee_1.default.Bill.find({ isSend: true }).sort({
@@ -35,11 +35,6 @@ function getConsole(req, res) {
             });
             const admins = yield SOffee_1.default.Admin.find({}).sort({ date: -1 });
             const messages = yield SOffee_1.default.Message.find({}).sort({ date: -1 });
-            members = members.map((member) => {
-                member = Object.assign({}, member._doc);
-                member.dob = (0, function_1.formatDate)(member.dob);
-                return member;
-            });
             res.render('./admin/console', {
                 members: members,
                 products: products,
@@ -73,7 +68,7 @@ const ProductController = {
                     sold: sold ? sold : 0,
                     category: category ? category : '',
                     image: uploadResult ? uploadResult.link : '',
-                    date: Date.now(),
+                    date: (0, function_1.default)(new Date()),
                 });
             }
             else {
@@ -84,7 +79,7 @@ const ProductController = {
                     quantity: quantity ? quantity : 0,
                     sold: sold ? sold : 0,
                     category: category ? category : '',
-                    date: Date.now(),
+                    date: (0, function_1.default)(new Date()),
                 });
             }
         }
@@ -98,7 +93,6 @@ const ProductController = {
     updateProduct: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             if (req.files) {
-                console.log(req.body);
                 const image = req.files.image;
                 const uploadPath = app_root_path_1.default + '/src/public/files/' + image.name;
                 yield image.mv(uploadPath);
@@ -117,7 +111,6 @@ const ProductController = {
                 });
             }
             else {
-                console.log(req.body);
                 const { name, price, category, quantity, sold } = req.body;
                 yield SOffee_1.default.Product.findByIdAndUpdate(req.params.id, {
                     $set: {
@@ -155,7 +148,7 @@ const MemberController = {
                 const { name, dob, address, username, password, star, tel } = req.body;
                 yield SOffee_1.default.Member.create({
                     name: name ? name : '',
-                    dob: dob ? dob : Date.now(),
+                    dob: dob ? dob : (0, function_1.default)(new Date()),
                     address: address ? address : '',
                     username: username ? username : shortid_1.default.generate(),
                     password: password ? (0, md5_1.default)(password) : (0, md5_1.default)('soffee'),
@@ -168,7 +161,7 @@ const MemberController = {
                 const { name, dob, address, username, password, star, tel } = req.body;
                 yield SOffee_1.default.Member.create({
                     name: name ? name : '',
-                    dob: dob ? dob : Date.now(),
+                    dob: dob ? dob : (0, function_1.default)(new Date()),
                     address: address ? address : '',
                     username: username ? username : shortid_1.default.generate(),
                     password: password ? (0, md5_1.default)(password) : (0, md5_1.default)('soffee'),
@@ -196,7 +189,7 @@ const MemberController = {
                 yield SOffee_1.default.Member.findByIdAndUpdate(req.params.id, {
                     $set: {
                         name: name ? name : '',
-                        dob: dob ? dob : Date.now(),
+                        dob: dob ? dob : (0, function_1.default)(new Date()),
                         address: address ? address : '',
                         username: username ? username : shortid_1.default.generate(),
                         password: password ? (0, md5_1.default)(password) : (0, md5_1.default)('soffee'),
@@ -211,7 +204,7 @@ const MemberController = {
                 yield SOffee_1.default.Member.findByIdAndUpdate(req.params.id, {
                     $set: {
                         name: name ? name : '',
-                        dob: dob ? dob : Date.now(),
+                        dob: dob ? dob : (0, function_1.default)(new Date()),
                         address: address ? address : '',
                         username: username ? username : shortid_1.default.generate(),
                         password: password ? (0, md5_1.default)(password) : (0, md5_1.default)('soffee'),

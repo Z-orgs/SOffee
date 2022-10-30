@@ -8,7 +8,7 @@ const Schema = mongoose_1.default.Schema;
 const member = new Schema({
     name: String,
     image: String,
-    dob: Date || String,
+    dob: String,
     address: String,
     username: {
         type: String,

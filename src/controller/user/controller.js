@@ -14,15 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getProduct = exports.sendMessage = exports.getUserBill = exports.submitBill = exports.getBill = exports.submitCart = exports.addToCart = exports.getCart = exports.updateMember = exports.getMember = exports.getIndex = void 0;
 const SOffee_1 = __importDefault(require("../../SOffee"));
-const function_1 = require("../../function/function");
 const imgur_1 = __importDefault(require("imgur"));
+const function_1 = __importDefault(require("../../function"));
 const app_root_path_1 = __importDefault(require("app-root-path"));
 const fs_1 = __importDefault(require("fs"));
 function getIndex(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const sortByDate = String(req.query.sortByDate) || '';
-            const sortByPrice = String(req.query.sortByPrice) || '';
+            const sortByDate = String(req.query.sortByDate) || 'desc';
+            const sortByPrice = String(req.query.sortByPrice) || 'desc';
             let product;
             if (sortByDate === 'asc' && sortByPrice === 'asc') {
                 product = yield SOffee_1.default.Product.find().sort({
@@ -66,13 +66,14 @@ exports.getIndex = getIndex;
 function getMember(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const result = yield SOffee_1.default.Member.findOne({
+            const member = yield SOffee_1.default.Member.findOne({
                 username: req.params.username,
             });
-            const member = Object.assign(Object.assign({}, result), { dob: (0, function_1.formatDate)(result === null || result === void 0 ? void 0 : result.dob) });
-            res.render('./user/member', {
-                member: member,
-            });
+            if (member) {
+                res.render('./user/member', {
+                    member: member,
+                });
+            }
         }
         catch (error) {
             console.log(error);
@@ -97,7 +98,7 @@ function updateMember(req, res) {
                     $set: {
                         name: name,
                         image: uploadResult ? uploadResult.link : '',
-                        dob: dob ? new Date(dob) : Date.now(),
+                        dob: dob ? dob : '',
                         address: address,
                         tel: tel,
                     },
@@ -110,7 +111,7 @@ function updateMember(req, res) {
                 }, {
                     $set: {
                         name: name,
-                        dob: dob ? new Date(dob) : Date.now(),
+                        dob: dob ? dob : '',
                         address: address,
                         tel: tel,
                     },
@@ -206,11 +207,12 @@ function submitCart(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         let totalMoney = 0;
         for (const product of req.body.submitProduct) {
-            let result = yield SOffee_1.default.Product.findById(product.productId);
-            result = Object.assign({}, result);
-            product.product = result;
-            result = result.price * product.quantity;
-            totalMoney += result;
+            SOffee_1.default.Product.findById(product.productId).then((data) => {
+                if (data) {
+                    product.product = data;
+                    totalMoney += data.price * product.quantity;
+                }
+            });
         }
         const [member, guest] = yield Promise.all([
             SOffee_1.default.Member.findOne({ username: req.signedCookies.username }),
@@ -218,7 +220,7 @@ function submitCart(req, res) {
         ]);
         const customer = member ? Object.assign({}, member) : Object.assign({}, guest);
         SOffee_1.default.Bill.create({
-            date: Date.now(),
+            date: (0, function_1.default)(new Date()),
             totalMoney: totalMoney,
             product: req.body.submitProduct,
             customer: customer,
@@ -227,6 +229,7 @@ function submitCart(req, res) {
             res.status(200).json({ status: 200 });
         })
             .catch((err) => {
+            console.log(err);
             res.status(400).json({ status: 400 });
         });
     });
@@ -250,7 +253,6 @@ function getBill(req, res) {
 }
 exports.getBill = getBill;
 function submitBill(req, res) {
-    console.log('a');
     SOffee_1.default.Bill.updateOne({ _id: req.body.billId }, {
         $set: {
             isSend: true,
@@ -300,7 +302,7 @@ function sendMessage(req, res) {
         email: req.body.email,
         subject: req.body.subject,
         message: req.body.message,
-        date: Date.now(),
+        date: (0, function_1.default)(new Date()),
     })
         .then((data) => {
         res.render('./user/index', {

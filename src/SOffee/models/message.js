@@ -10,7 +10,7 @@ const message = new Schema({
     email: String,
     subject: String,
     message: String,
-    date: Date,
+    date: String,
 }, {
     collection: 'Message',
 });
