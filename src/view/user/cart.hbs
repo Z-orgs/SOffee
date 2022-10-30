@@ -15,7 +15,8 @@
         <br>
         {{this.product.price}}
         <br>
-        <input type="text" value="{{this.productId}}" hidden>
+        <img src="{{this.product.image}}" alt="">
+        <input type="text" value="{{this.product._id}}" hidden>
         <input type="number" value="{{this.quantity}}">
     </div>
     {{/each}}

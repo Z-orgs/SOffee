@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const formatDate = (date) => {
+const formatDate = (date: Date | string | undefined) => {
     if (!date) {
         return '';
     }
@@ -16,4 +14,4 @@ const formatDate = (date) => {
     }
     return [year, month, day].join('-');
 };
-exports.default = formatDate;
+export default formatDate;

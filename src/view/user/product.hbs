@@ -7,8 +7,8 @@
 	</head>
 	<body>
 		{{product}}
-		<input type='number' id='quantity-{{this._id}}' />
-		<button onclick='addToCart(`{{product._id}}'>add to cart</button>
+		<input type='number' id='quantity-{{product._id}}' />
+		<button onclick='addToCart(`{{product._id}}`)'>add to cart</button>
 	</body>
-	<script src='js/function.js'></script>
+	<script src='/js/function.js'></script>
 </html>

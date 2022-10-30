@@ -40,11 +40,6 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-.yarn/
-
-# I don't know
-.pnp.cjs
-.pnp.loader.mjs
 
 # TypeScript v1 declaration files
 typings/
