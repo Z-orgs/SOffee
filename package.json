@@ -4,10 +4,10 @@
   "author": {
     "name": "drm ft. Yuno"
   },
-  "main": "./src/SOffee.js",
+  "main": "./src/index.js",
   "scripts": {
-    "dev": "nodemon ./src/SOffee.js",
-    "start": "node ./src/SOffee.js"
+    "dev": "nodemon ./src/index.js",
+    "start": "node ./src/index.js"
   },
   "repository": {
     "type": "git",
