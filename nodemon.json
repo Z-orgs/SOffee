@@ -4,5 +4,5 @@
     ],
     "ext": ".ts,.js",
     "ignore": [],
-    "exec": "ts-node --files ./src/index.ts"
+    "exec": "ts-node --files ./src/bin/www.ts"
 }
