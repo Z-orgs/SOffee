@@ -13,7 +13,7 @@ app.use(express.static('./src/public'));
 app.set('view engine', 'hbs');
 app.set('views', './src/view');
 app.use(logger('dev'));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser(shortid.generate()));
 app.use('/', indexRouter);

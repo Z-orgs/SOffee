@@ -5,7 +5,7 @@ import * as authController from '../controller/user/auth';
 import { requireLogin, requireUsername } from '../middleware/user';
 var router = Router();
 var csrfProtection = csurf({ cookie: true });
-router.get('/', indexController.getIndex);
+router.get('/', requireLogin, indexController.getIndex);
 router.post('/', authController.auth);
 router.get('/product/:id', requireLogin, indexController.getProduct);
 router.get('/cart', requireLogin, indexController.getCart);
@@ -19,10 +19,10 @@ router.get('/logout', requireLogin, authController.logout);
 router.post('/changePassword', requireLogin, authController.changePassword);
 router.get('/member/:username', requireLogin, indexController.getMember);
 router.post(
-    '/member/:username',
-    requireLogin,
-    requireUsername,
-    indexController.updateMember,
-    authController.logout
+	'/member/:username',
+	requireLogin,
+	requireUsername,
+	indexController.updateMember,
+	authController.logout
 );
 export default router;

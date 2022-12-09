@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>login</h2>
+			<form action='/' method='post'>
+				<input type='text' name='typeOfForm' value='login' hidden />
+				<label for=''>usernames</label><br />
+				<input type='text' name='username' /><br />
+				<label for=''>password</label><br />
+				<input type='text' name='password' />
+				<input type='submit' value='Login' />
+			</form>
+			<h2>signup</h2>
+			<form action='/' method='post'>
+				<input type='text' name='typeOfForm' value='signup' hidden />
+				<label for=''>username</label><br />
+				<input type='text' name='username' /><br />
+				<label for=''>password</label><br />
+				<input type='text' name='password' /><br />
+				<label for=''>Confirm password</label><br />
+				<input type='text' name='rePassword' />
+				<input type='submit' value='Signup' />
+			</form>
+			<button onclick='guest();'>Continue without login.</button>
+			<script src='/js/function.js'></script>
+</body>
+</html>
