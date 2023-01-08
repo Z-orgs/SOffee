@@ -1,6 +1,6 @@
 # SOffee
 
-`const Author = ["drm", "Yuno"]`
+`const Author = ["REdirect", "Yuno"]`
 
 ## Dependencies
 
