@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/Z-orgs/SOffee" target="blank"><img src="https://i.imgur.com/hQOQtlC.png" width="300" alt="soffee logo" /></a>
+  <a href="https://github.com/Z-orgs/SOffee" target="blank"><img src="https://i.imgur.com/dQ90NGS.png" width="300" alt="soffee logo" /></a>
 </p>
 
 SOffee - Online Coffee Store
