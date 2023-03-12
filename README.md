@@ -33,7 +33,7 @@ Tech Stack
 Developers
 ----------
 
-This project was developed by [mxz](https://github.com/mxzxm) and [Yuno](https://github.com/imdev2002).
+This project is developing by [mxz](https://github.com/mxzxm) and [Yuno](https://github.com/imdev2002).
 
 License
 -------
