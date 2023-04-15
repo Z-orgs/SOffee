@@ -5,7 +5,7 @@
 SOffee - Online Coffee Store
 ============================
 
-SOffee is a website that offers a wide variety of coffee, coffee beans, and accessories for coffee lovers. The website is developed using Express.js and TypeScript, by [mxz](https://github.com/mxzxm) and [Yuno](https://github.com/imdev2002).
+SOffee is a website that offers a wide variety of coffee, coffee beans, and accessories for coffee lovers. The website is developed using Express.js and TypeScript, by [Kwzng](https://github.com/kwzng) and [Yuno](https://github.com/imdev2002).
 
 Features
 --------
@@ -33,7 +33,7 @@ Tech Stack
 Developers
 ----------
 
-This project is developing by [mxz](https://github.com/mxzxm) and [Yuno](https://github.com/imdev2002).
+This project is developing by [Kwzng](https://github.com/Kwzng) and [Yuno](https://github.com/imdev2002).
 
 License
 -------
