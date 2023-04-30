@@ -1,7 +1,7 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import createError from 'http-error';
-import indexRouter from './router/user';
-import adminRouter from './router/admin';
+import indexRouter from './router/user.js';
+import adminRouter from './router/admin.js';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
 import 'dotenv/config';
@@ -18,10 +18,10 @@ app.use(express.json());
 app.use(cookieParser(shortid.generate()));
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req, res, next) => {
 	next(createError(404));
 });
-app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
+app.use(function (err, req, res, next) {
 	res.locals.message = err.message;
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
 

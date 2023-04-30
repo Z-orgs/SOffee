@@ -1,6 +1,5 @@
-import SOffee from '../SOffee';
-import { Request, Response, NextFunction } from 'express';
-async function requireLogin(req: Request, res: Response, next: NextFunction) {
+import SOffee from '../SOffee/index.js';
+async function requireLogin(req, res, next) {
 	const [member, guest] = await Promise.all([
 		SOffee.Member.find({ username: req.signedCookies.username }),
 		SOffee.Guest.find({ username: req.signedCookies.username }),
@@ -12,7 +11,7 @@ async function requireLogin(req: Request, res: Response, next: NextFunction) {
 		res.render('./user/init');
 	}
 }
-function requireUsername(req: Request, res: Response, next: NextFunction) {
+function requireUsername(req, res, next) {
 	if (req.params.username !== req.signedCookies.username) {
 		res.render('./other/bug');
 	} else {

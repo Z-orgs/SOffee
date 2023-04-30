@@ -1,13 +1,12 @@
-import SOffee from '../../SOffee';
+import SOffee from '../../SOffee/index.js';
 import imgur from 'imgur';
-import formatDate from '../../function';
+import formatDate from '../../function/index.js';
 import appRoot from 'app-root-path';
 import fs from 'fs';
-import { Request, Response } from 'express';
-async function getIndex(req: Request, res: Response) {
+async function getIndex(req, res) {
 	try {
-		const sortByDate: string = String(req.query.sortByDate) || 'desc';
-		const sortByPrice: string = String(req.query.sortByPrice) || 'desc';
+		const sortByDate = String(req.query.sortByDate) || 'desc';
+		const sortByPrice = String(req.query.sortByPrice) || 'desc';
 		let product;
 		if (sortByDate === 'asc' && sortByPrice === 'asc') {
 			product = await SOffee.Product.find().sort({
@@ -41,7 +40,7 @@ async function getIndex(req: Request, res: Response) {
 		res.redirect('/');
 	}
 }
-async function getMember(req: Request, res: Response) {
+async function getMember(req, res) {
 	try {
 		const member = await SOffee.Member.findOne({
 			username: req.params.username,
@@ -56,7 +55,7 @@ async function getMember(req: Request, res: Response) {
 		res.redirect('/');
 	}
 }
-async function updateMember(req: Request, res: Response) {
+async function updateMember(req, res) {
 	try {
 		if (req.files) {
 			const image = req.files.image;
@@ -101,7 +100,7 @@ async function updateMember(req: Request, res: Response) {
 		res.redirect('/');
 	}
 }
-async function getCart(req: Request, res: Response) {
+async function getCart(req, res) {
 	try {
 		const [member, guest] = await Promise.all([
 			SOffee.Member.findOne({ username: req.signedCookies.username }),
@@ -117,7 +116,7 @@ async function getCart(req: Request, res: Response) {
 	}
 }
 
-function addToCart(req: Request, res: Response) {
+function addToCart(req, res) {
 	try {
 		SOffee.Product.findById(req.body.productId)
 			.then(async (data) => {
@@ -178,8 +177,8 @@ function addToCart(req: Request, res: Response) {
 		return res.status(500).json({ status: 500, msg: 'failed' });
 	}
 }
-async function submitCart(req: Request, res: Response) {
-	let totalMoney: number = 0;
+async function submitCart(req, res) {
+	let totalMoney = 0;
 	for (const product of req.body.submitProduct) {
 		SOffee.Product.findById(product.productId).then((data) => {
 			if (data) {
@@ -209,9 +208,9 @@ async function submitCart(req: Request, res: Response) {
 			res.status(400).json({ status: 400 });
 		});
 }
-function getBill(req: Request, res: Response) {
+function getBill(req, res) {
 	SOffee.Bill.find({ username: req.signedCookies.username }).then((data) => {
-		let result: any = [...data];
+		let result = [...data];
 		result = result[result.length - 1];
 		result.customer.password = '';
 		if (result.isSend == true) {
@@ -224,7 +223,7 @@ function getBill(req: Request, res: Response) {
 		}
 	});
 }
-function submitBill(req: Request, res: Response) {
+function submitBill(req, res) {
 	SOffee.Bill.updateOne(
 		{ _id: req.body.billId },
 		{
@@ -259,7 +258,7 @@ function submitBill(req: Request, res: Response) {
 			res.redirect('/');
 		});
 }
-async function getUserBill(req: Request, res: Response) {
+async function getUserBill(req, res) {
 	const bills = await SOffee.Bill.find({
 		username: req.signedCookies.username,
 		isSend: true,
@@ -272,7 +271,7 @@ async function getUserBill(req: Request, res: Response) {
 		});
 	}
 }
-function sendMessage(req: Request, res: Response) {
+function sendMessage(req, res) {
 	SOffee.Message.create({
 		username: req.signedCookies.username,
 		email: req.body.email,
@@ -291,7 +290,7 @@ function sendMessage(req: Request, res: Response) {
 			});
 		});
 }
-async function getProduct(req: Request, res: Response) {
+async function getProduct(req, res) {
 	var product = await SOffee.Product.findById(req.params.id);
 	res.render('./user/product', {
 		product,

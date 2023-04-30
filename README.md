@@ -27,7 +27,7 @@ Tech Stack
 
 *   Frontend: HTML, CSS, JavaScript
 *   Backend: Node.js, Express.js
-*   Language: TypeScript
+*   Language: Javascript
 *   Database: MongoDB
 
 Developers

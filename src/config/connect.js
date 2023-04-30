@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const url: string = process.env.URL || '';
+const url = process.env.URL || '';
 function connectDB() {
 	try {
 		mongoose.connect(url);

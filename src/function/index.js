@@ -1,4 +1,4 @@
-const formatDate = (date: Date | string | undefined) => {
+const formatDate = (date) => {
 	if (!date) {
 		return '';
 	}
@@ -14,7 +14,7 @@ const formatDate = (date: Date | string | undefined) => {
 	}
 	return [year, month, day].join('-');
 };
-function normalizePort(val: string) {
+function normalizePort(val) {
 	const port = parseInt(val, 10);
 
 	if (isNaN(port)) {

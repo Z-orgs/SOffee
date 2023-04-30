@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import csurf from 'csurf';
-import * as indexController from '../controller/user/controller';
-import * as authController from '../controller/user/auth';
-import { requireLogin, requireUsername } from '../middleware/user';
+import * as indexController from '../controller/user/controller.js';
+import * as authController from '../controller/user/auth.js';
+import { requireLogin, requireUsername } from '../middleware/user.js';
 var router = Router();
 var csrfProtection = csurf({ cookie: true });
 router.get('/', requireLogin, indexController.getIndex);

@@ -1,8 +1,8 @@
-import app from '../app';
-import connectDB from '../config/connect';
+import app from '../app.js';
+import connectDB from '../config/connect.js';
 import { createServer } from 'http';
 import debug from 'debug';
-import { normalizePort } from '../function';
+import { normalizePort } from '../function/index.js';
 const debugApp = debug('SOffee:server');
 const PORT = normalizePort(process.env.PORT || '80');
 app.set('port', PORT);
@@ -13,7 +13,7 @@ server.listen(PORT, () => {
 });
 server.on('error', onError);
 server.on('listening', onListening);
-function onError(error: any) {
+function onError(error) {
 	if (error.syscall !== 'listen') {
 		throw error;
 	}

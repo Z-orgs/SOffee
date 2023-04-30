@@ -1,15 +1,14 @@
-import SOffee from '../../SOffee';
-import { Request, Response } from 'express';
+import SOffee from '../../SOffee/index.js';
 import imgur from 'imgur';
 import appRoot from 'app-root-path';
 import fs from 'fs';
 import shortid from 'shortid';
 import md5 from 'md5';
-import formatDate from '../../function';
-function getIndex(req: Request, res: Response) {
+import formatDate from '../../function/index.js';
+function getIndex(req, res) {
 	res.render('./admin/index');
 }
-async function getConsole(req: Request, res: Response) {
+async function getConsole(req, res) {
 	try {
 		const members = await SOffee.Member.find({}).sort({ date: -1 });
 		const products = await SOffee.Product.find({}).sort({ date: -1 });
@@ -33,7 +32,7 @@ async function getConsole(req: Request, res: Response) {
 	}
 }
 const ProductController = {
-	createProduct: async (req: Request, res: Response) => {
+	createProduct: async (req, res) => {
 		try {
 			if (req.files) {
 				const image = req.files.image;
@@ -68,7 +67,7 @@ const ProductController = {
 			res.redirect('/admin/console');
 		}
 	},
-	updateProduct: async (req: Request, res: Response) => {
+	updateProduct: async (req, res) => {
 		try {
 			if (req.files) {
 				const image = req.files.image;
@@ -105,13 +104,13 @@ const ProductController = {
 			res.redirect('/admin/console');
 		}
 	},
-	deleteProduct: async (req: Request, res: Response) => {
+	deleteProduct: async (req, res) => {
 		await SOffee.Product.deleteOne({ _id: req.params.id });
 		res.json({ msg: 'ok' });
 	},
 };
 const MemberController = {
-	createMember: async (req: Request, res: Response) => {
+	createMember: async (req, res) => {
 		try {
 			if (req.files) {
 				const image = req.files.image;
@@ -148,7 +147,7 @@ const MemberController = {
 			res.redirect('/admin/console');
 		}
 	},
-	updateMember: async (req: Request, res: Response) => {
+	updateMember: async (req, res) => {
 		try {
 			if (req.files) {
 				const image = req.files.image;
@@ -189,19 +188,19 @@ const MemberController = {
 			res.redirect('/admin/console');
 		}
 	},
-	deleteMember: async (req: Request, res: Response) => {
+	deleteMember: async (req, res) => {
 		await SOffee.Member.deleteOne({ _id: req.params.id });
 		res.json({ msg: 'ok' });
 	},
 };
 const GuestController = {
-	deleteGuest: async (req: Request, res: Response) => {
+	deleteGuest: async (req, res) => {
 		await SOffee.Guest.deleteOne({ _id: req.params.id });
 		res.json({ msg: 'ok' });
 	},
 };
 const AdminController = {
-	createAdmin: async (req: Request, res: Response) => {
+	createAdmin: async (req, res) => {
 		try {
 			await SOffee.Admin.create({
 				username: req.body.username,
@@ -213,7 +212,7 @@ const AdminController = {
 			res.redirect('/admin/console');
 		}
 	},
-	updateAdmin: async (req: Request, res: Response) => {
+	updateAdmin: async (req, res) => {
 		try {
 			await SOffee.Admin.findByIdAndUpdate(req.params.id, {
 				$set: {
@@ -227,13 +226,13 @@ const AdminController = {
 			res.redirect('/admin/console');
 		}
 	},
-	deleteAdmin: async (req: Request, res: Response) => {
+	deleteAdmin: async (req, res) => {
 		// await SOffee.Admin.deleteOne({ _id: req.params.id });
 		res.json({ msg: 'error' });
 	},
 };
 const BillController = {
-	updateBill: async (req: Request, res: Response) => {
+	updateBill: async (req, res) => {
 		try {
 			await SOffee.Bill.findByIdAndUpdate(req.params.id, {
 				$set: {
@@ -250,13 +249,13 @@ const BillController = {
 			res.redirect('/admin/console');
 		}
 	},
-	deleteBill: async (req: Request, res: Response) => {
+	deleteBill: async (req, res) => {
 		await SOffee.Bill.deleteOne({ _id: req.params.id });
 		res.json({ msg: 'ok' });
 	},
 };
 const MessageController = {
-	deleteMessage: async (req: Request, res: Response) => {
+	deleteMessage: async (req, res) => {
 		await SOffee.Message.deleteOne({ _id: req.params.id });
 		res.json({ msg: 'ok' });
 	},

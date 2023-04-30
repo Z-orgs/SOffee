@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import * as admin from '../controller/admin/controller';
-import * as authController from '../controller/admin/auth';
-import { requireLogin, ifLoggedIn } from '../middleware/admin';
+import * as admin from '../controller/admin/controller.js';
+import * as authController from '../controller/admin/auth.js';
+import { requireLogin, ifLoggedIn } from '../middleware/admin.js';
 var router = Router();
 router.get('/', ifLoggedIn, admin.getIndex);
 router.get('/console', requireLogin, admin.getConsole);
