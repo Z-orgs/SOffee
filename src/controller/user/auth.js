@@ -22,12 +22,12 @@ function auth(req, res) {
 							});
 							res.redirect('/');
 						} else {
-							res.render('./user/index', {
+							res.render('./user/init', {
 								msg: 'Wrong password.',
 							});
 						}
 					} else {
-						res.render('./user/index', {
+						res.render('./user/init', {
 							msg: 'Member does not exist.',
 						});
 					}
@@ -53,12 +53,12 @@ function auth(req, res) {
 							username: username,
 							password: password,
 						}).then((log) => {
-							res.render('./user/index', {
+							res.render('./user/init', {
 								msg: 'Sign up successful.',
 							});
 						});
 					} else {
-						res.render('./user/index', {
+						res.render('./user/init', {
 							msg: 'User exist.',
 						});
 					}
