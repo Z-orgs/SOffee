@@ -33,7 +33,7 @@ Tech Stack
 Developers
 ----------
 
-This project is developing by [Kwzng](https://github.com/Kwzng) and [Yuno](https://github.com/imdev2002).
+This project is developing by [710](https://github.com/710x) and [Yuno](https://github.com/imdev2002).
 
 License
 -------
